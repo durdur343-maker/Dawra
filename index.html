@@ -236,42 +236,83 @@
                 width: 100%;
                 padding: 20px;
                 font-size: 12pt;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             }
             
             .print-header {
                 text-align: center;
                 margin-bottom: 30px;
                 padding-bottom: 20px;
-                border-bottom: 2px solid #333;
+                border-bottom: 2px solid #2c7873;
+            }
+            
+            .print-header h2 {
+                font-size: 24pt;
+                margin-bottom: 10px;
+                color: #2c7873;
+            }
+            
+            .print-header h4 {
+                font-size: 18pt;
+                margin-bottom: 15px;
+                color: #6fb98f;
             }
             
             .print-table {
                 width: 100%;
                 border-collapse: collapse;
                 margin-top: 20px;
+                margin-bottom: 30px;
             }
             
             .print-table th {
                 background-color: #f2f2f2;
-                padding: 10px;
+                padding: 12px 8px;
                 border: 1px solid #ddd;
                 text-align: right;
                 font-weight: bold;
                 font-size: 1rem;
+                color: #2c3e50;
             }
             
             .print-table td {
-                padding: 8px 10px;
+                padding: 10px 8px;
                 border: 1px solid #ddd;
                 font-size: 0.95rem;
             }
             
+            .print-table tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+            
             .print-footer {
                 margin-top: 40px;
-                text-align: left;
+                padding-top: 20px;
+                border-top: 1px solid #ccc;
                 font-size: 10pt;
                 color: #666;
             }
+        }
+        
+        /* نمط تفاصيل البحث في الطباعة */
+        #printSearchDetails {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-right: 4px solid #2c7873;
+            font-size: 11pt;
+            line-height: 1.6;
+        }
+
+        #printSearchDetails div {
+            margin-bottom: 8px;
+        }
+
+        #printSearchDetails strong {
+            color: #2c7873;
+            min-width: 120px;
+            display: inline-block;
         }
         
         .print-header {
@@ -400,6 +441,75 @@
         .show-more-btn:hover {
             color: var(--secondary-color);
         }
+
+        /* أنماط عرض الصور - صورة مربعة بدون زر حفظ */
+        .profile-image-container {
+            width: 100px;
+            height: 100px;
+            overflow: hidden;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 2px 8px rgba(44, 120, 115, 0.2);
+            background-color: white;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .profile-image-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(44, 120, 115, 0.3);
+        }
+
+        .profile-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .no-image-box {
+            width: 100px;
+            height: 100px;
+            border: 2px dashed #ccc;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #6c757d;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .no-image-box:hover {
+            border-color: var(--primary-color);
+            background-color: #e9ecef;
+        }
+
+        .no-image-box i {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: #adb5bd;
+        }
+
+        .no-image-box span {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        /* تنسيق للشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .profile-image-container,
+            .no-image-box {
+                width: 80px;
+                height: 80px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -423,7 +533,7 @@
         <!-- بطاقة البحث -->
         <div class="search-card">
             <div class="card-body p-4">
-                <h4 class="card-title mb-4"><i class="bi bi-search me-2"></i>ابحث عن اسم المشارك في الدورات اوالورش او يمكنك مشاهدة جميع دورات المقرر عقدها يوم غداً اسفل الصفحة </h4>
+                <h4 class="card-title mb-4"><i class="bi bi-search me-2"></i>بحث عن المشارك في الدورات والورش</h4>
                 <div class="row g-3">
                     <div class="col-md-10">
                         <div class="input-group">
@@ -438,7 +548,7 @@
                     </div>
                 </div>
                 <div class="mt-3 text-muted small">
-                    <i class="bi bi-info-circle me-1"></i>  في حال اكتشاف اي خطأ مطبعي او تقني بلغ ذاتية القسم لاجراء التعديل 
+                    <i class="bi bi-info-circle me-1"></i> اكتب اسم المشارك كاملاً أو جزءاً منه للعثور على سجلات الدورات والورش
                 </div>
             </div>
         </div>
@@ -461,11 +571,11 @@
                         <!-- عناوين الأعمدة -->
                         <div class="column-header px-3 d-none d-md-block">
                             <div class="row">
-                                <div class="col-md-2">
+                                <div class="col-md-1">
                                     <i class="bi bi-hash"></i> م
                                 </div>
-                                <div class="col-md-2">
-                                    <i class="bi bi-person"></i> اسم المشارك
+                                <div class="col-md-3">
+                                    <i class="bi bi-person"></i> اسم المشارك والصورة
                                 </div>
                                 <div class="col-md-2">
                                     <i class="bi bi-journal-text"></i> الدورة/الورشة
@@ -594,17 +704,22 @@
     <!-- قسم الطباعة (مخفي على الشاشة) -->
     <div id="printable-results" style="display: none;">
         <div class="print-header">
-            <h2>نظام إدارة الدورات والورش</h2>
-            <h4>قسم علوم الأغذية والتقانات الأحيائية</h4>
-            <hr>
-            <div>تاريخ الطباعة: <span id="printDate"></span></div>
-            <div>عنوان التقرير: <span id="printTitle"></span></div>
+            <h2 style="text-align: center; margin-bottom: 10px;">نظام إدارة الدورات والورش</h2>
+            <h4 style="text-align: center; margin-bottom: 20px; color: #2c7873;">قسم علوم الأغذية والتقانات الأحيائية</h4>
+            <hr style="border-color: #333; margin-bottom: 20px;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <strong id="printTitle" style="font-size: 16pt;"></strong>
+            </div>
+        </div>
+        
+        <div id="printSearchDetails" style="margin-bottom: 30px; padding: 15px; background-color: #f8f9fa; border-radius: 8px; border-right: 4px solid #2c7873;">
         </div>
         
         <table class="print-table" id="printTable">
             <thead>
                 <tr>
                     <th>#</th>
+                    <th>الصورة</th>
                     <th>اسم المشارك</th>
                     <th>اسم الدورة/الورشة</th>
                     <th>تاريخ الانعقاد</th>
@@ -613,13 +728,20 @@
                 </tr>
             </thead>
             <tbody id="printTableBody">
-                <!-- سيتم ملء هذا القسم عند الطباعة -->
             </tbody>
         </table>
         
-        <div class="print-footer">
-            <p>عدد النتائج: <span id="printCount">0</span></p>
-            <p>تم إنشاء هذا التقرير تلقائياً من نظام إدارة الدورات</p>
+        <div class="print-footer" style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ccc;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-size: 10pt; color: #666;">
+                    <p>عدد النتائج: <span id="printCount">0</span></p>
+                    <p>تم إنشاء هذا التقرير تلقائياً من نظام إدارة الدورات</p>
+                </div>
+                <div style="text-align: left; font-size: 10pt; color: #666;">
+                    <p>تاريخ الطباعة: <span id="printDate"></span></p>
+                    <p>وقت الطباعة: <span id="printTime"></span></p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -637,13 +759,10 @@
         // تحديث التاريخ والوقت
         function updateDateTime() {
             const now = new Date();
-            
             const day = now.getDate();
             const month = now.getMonth() + 1;
             const year = now.getFullYear();
-            
             const dateStr = `${day} / ${month} / ${year}`;
-            
             const hours = now.getHours().toString().padStart(2, '0');
             const minutes = now.getMinutes().toString().padStart(2, '0');
             const seconds = now.getSeconds().toString().padStart(2, '0');
@@ -653,6 +772,53 @@
             document.getElementById('currentTimeDisplay').textContent = `الوقت: ${timeStr}`;
         }
         
+        // دالة لعرض الصورة من Google Drive - العامود G (مربعة مع إمكانية الفتح)
+        function displayProfileImage(imageUrl, participantName, participantId) {
+            // التحقق من وجود رابط صورة صحيح
+            if (!imageUrl || imageUrl === '' || imageUrl === 'غير محدد' || imageUrl === '#N/A' || imageUrl === 'لم تتوفر صورة') {
+                // صندوق مربع مع نص "لم تتوفر صورة"
+                return `<div class="no-image-box" onclick="window.open('${imageUrl || '#'}', '_blank');">
+                            <i class="bi bi-image"></i>
+                            <span>لم تتوفر صورة</span>
+                        </div>`;
+            }
+            
+            // تنظيف الرابط من المسافات والاقتباسات
+            imageUrl = imageUrl.trim().replace(/^["']|["']$/g, '');
+            
+            // تحويل رابط Google Drive إلى رابط صورة مباشر
+            let fileId = '';
+            let directImageUrl = imageUrl;
+            
+            // استخراج معرف الملف من روابط Google Drive المختلفة
+            if (imageUrl.includes('drive.google.com')) {
+                if (imageUrl.includes('/d/')) {
+                    fileId = imageUrl.split('/d/')[1].split('/')[0];
+                } else if (imageUrl.includes('id=')) {
+                    fileId = imageUrl.split('id=')[1].split('&')[0];
+                } else if (imageUrl.includes('open?')) {
+                    fileId = imageUrl.split('id=')[1].split('&')[0];
+                } else if (imageUrl.includes('uc?')) {
+                    fileId = imageUrl.split('id=')[1].split('&')[0];
+                }
+            } else if (imageUrl.includes('docs.google.com')) {
+                if (imageUrl.includes('/d/')) {
+                    fileId = imageUrl.split('/d/')[1].split('/')[0];
+                }
+            }
+            
+            // إذا وجدنا معرف الملف، نبني رابط الصورة المباشر
+            if (fileId) {
+                directImageUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
+            }
+            
+            // صندوق مربع مع الصورة فقط - بدون زر حفظ
+            return `<div class="profile-image-container" onclick="window.open('${directImageUrl}', '_blank');">
+                        <img src="${directImageUrl}" alt="صورة المشارك" 
+                             onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'no-image-box\' onclick=\'window.open(\\'${directImageUrl}\\', \\'_blank\\');\'><i class=\'bi bi-image\'></i><span>لم تتوفر صورة</span></div>';">
+                    </div>`;
+        }
+
         // تحميل البيانات من Google Sheets
         async function loadData() {
             try {
@@ -723,7 +889,7 @@
                     break;
                 }
             }
-            
+        
             const headers = splitCSVLine(lines[headerRow]);
             
             for (let i = headerRow + 1; i < lines.length; i++) {
@@ -742,6 +908,32 @@
                     if (!participant.hasOwnProperty('مدة الدورة')) {
                         participant['مدة الدورة'] = '';
                     }
+                    
+                    // معالجة خاصة للعامود G (الصور)
+                    const keys = Object.keys(participant);
+                    
+                    // البحث عن العامود G (عادة ما يكون الفهرس 6)
+                    let imageUrl = '';
+                    
+                    // 1. البحث عن مفتاح يحتوي على كلمة صورة أو Image
+                    for (const key of keys) {
+                        if (key.includes('صورة') || key.includes('Image') || key.includes('image') || key.includes('G:')) {
+                            imageUrl = participant[key];
+                            break;
+                        }
+                    }
+                    
+                    // 2. إذا لم نجد، نأخذ العامود السادس (G)
+                    if (!imageUrl && keys.length > 6) {
+                        imageUrl = participant[keys[6]] || '';
+                    }
+                    
+                    // 3. إذا لم نجد، نأخذ آخر عامود
+                    if (!imageUrl && keys.length > 0) {
+                        imageUrl = participant[keys[keys.length - 1]] || '';
+                    }
+                    
+                    participant['صورة_المشارك'] = imageUrl;
                     
                     if (participant['اسم المشارك'] && participant['اسم المشارك'] !== '') {
                         participant.id = i;
@@ -864,20 +1056,31 @@
                 const courseName = participant['اسم الدورة او الورشة'] || participant['اسم الدورة'] || 'غير محدد';
                 const duration = participant['مدة الدورة'] || 'غير محدد';
                 
+                // الحصول على رابط الصورة واسم المشارك
+                const imageUrl = participant['صورة_المشارك'] || '';
+                const participantName = participant['اسم المشارك'] || 'غير محدد';
+                
                 html += `
                 <div class="participant-row ${isTomorrow ? 'border-start border-warning border-3' : isYesterday ? 'border-start border-secondary border-3' : ''}">
                     <div class="row align-items-center">
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <div class="fw-bold text-dark mb-1">
                                 <span style="font-size: 1.1rem;">${index + 1}</span>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="fw-bold text-primary mb-1 participant-name">
-                                <i class="bi bi-person-circle me-2"></i>${participant['اسم المشارك'] || 'غير محدد'}
-                            </div>
-                            <div class="participant-details">
-                                رقم السجل: ${participant.id || index + 1}
+                        <div class="col-md-3">
+                            <div class="d-flex align-items-start">
+                                <div class="me-3">
+                                    ${displayProfileImage(imageUrl, participantName, participant.id)}
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-primary mb-1 participant-name">
+                                        ${participantName}
+                                    </div>
+                                    <div class="participant-details">
+                                        رقم السجل: ${participant.id || index + 1}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -1055,9 +1258,6 @@
         
         // الحصول على دورات الغد
         function getTomorrowCourses(participants) {
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            
             return participants.filter(participant => {
                 return isCourseTomorrow(participant['تاريخ انعقادها']);
             });
@@ -1065,9 +1265,6 @@
         
         // الحصول على دورات الأمس
         function getYesterdayCourses(participants) {
-            const yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            
             return participants.filter(participant => {
                 return isCourseYesterday(participant['تاريخ انعقادها']);
             });
@@ -1083,12 +1280,11 @@
                 
                 const tomorrow = new Date();
                 tomorrow.setDate(tomorrow.getDate() + 1);
+                tomorrow.setHours(0, 0, 0, 0);
+                courseDate.setHours(0, 0, 0, 0);
                 
-                return courseDate.getDate() === tomorrow.getDate() &&
-                       courseDate.getMonth() === tomorrow.getMonth() &&
-                       courseDate.getFullYear() === tomorrow.getFullYear();
+                return courseDate.getTime() === tomorrow.getTime();
             } catch (e) {
-                console.error("خطأ في تحليل التاريخ:", dateString, e);
                 return false;
             }
         }
@@ -1103,12 +1299,11 @@
                 
                 const yesterday = new Date();
                 yesterday.setDate(yesterday.getDate() - 1);
+                yesterday.setHours(0, 0, 0, 0);
+                courseDate.setHours(0, 0, 0, 0);
                 
-                return courseDate.getDate() === yesterday.getDate() &&
-                       courseDate.getMonth() === yesterday.getMonth() &&
-                       courseDate.getFullYear() === yesterday.getFullYear();
+                return courseDate.getTime() === yesterday.getTime();
             } catch (e) {
-                console.error("خطأ في تحليل التاريخ:", dateString, e);
                 return false;
             }
         }
@@ -1127,96 +1322,112 @@
                 
                 return courseDate < today;
             } catch (e) {
-                console.error("خطأ في تحليل التاريخ:", dateString, e);
                 return false;
             }
         }
         
-        // تحليل التاريخ من تنسيقات مختلفة
+        // دالة متقدمة لتحليل التاريخ من تنسيقات مختلفة
         function parseDate(dateString) {
             if (!dateString) return null;
             
-            const dateFormats = [
-                'YYYY-MM-DD',
-                'DD/MM/YYYY', 
-                'MM/DD/YYYY',
-                'YYYY/MM/DD',
-                'DD-MM-YYYY',
-                'MM-DD-YYYY'
-            ];
+            dateString = dateString.toString().trim();
             
-            let date = null;
+            // تنظيف التاريخ من أي نصوص إضافية
+            dateString = dateString.replace(/[^0-9\/\-\.]/g, '');
             
-            for (const format of dateFormats) {
-                date = tryParseDate(dateString, format);
-                if (date) break;
-            }
+            // قائمة الفواصل المحتملة
+            const separators = ['/', '-', '.'];
+            let parts = [];
+            let separator = '';
             
-            return date;
-        }
-        
-        // محاولة تحليل التاريخ بتنسيق معين
-        function tryParseDate(dateString, format) {
-            let year, month, day;
-            
-            dateString = dateString.trim();
-            
-            if (format === 'YYYY-MM-DD') {
-                const parts = dateString.split('-');
-                if (parts.length === 3) {
-                    year = parseInt(parts[0], 10);
-                    month = parseInt(parts[1], 10) - 1;
-                    day = parseInt(parts[2], 10);
-                }
-            } else if (format === 'DD/MM/YYYY') {
-                const parts = dateString.split('/');
-                if (parts.length === 3) {
-                    day = parseInt(parts[0], 10);
-                    month = parseInt(parts[1], 10) - 1;
-                    year = parseInt(parts[2], 10);
-                }
-            } else if (format === 'MM/DD/YYYY') {
-                const parts = dateString.split('/');
-                if (parts.length === 3) {
-                    month = parseInt(parts[0], 10) - 1;
-                    day = parseInt(parts[1], 10);
-                    year = parseInt(parts[2], 10);
-                }
-            } else if (format === 'YYYY/MM/DD') {
-                const parts = dateString.split('/');
-                if (parts.length === 3) {
-                    year = parseInt(parts[0], 10);
-                    month = parseInt(parts[1], 10) - 1;
-                    day = parseInt(parts[2], 10);
-                }
-            } else if (format === 'DD-MM-YYYY') {
-                const parts = dateString.split('-');
-                if (parts.length === 3) {
-                    day = parseInt(parts[0], 10);
-                    month = parseInt(parts[1], 10) - 1;
-                    year = parseInt(parts[2], 10);
-                }
-            } else if (format === 'MM-DD-YYYY') {
-                const parts = dateString.split('-');
-                if (parts.length === 3) {
-                    month = parseInt(parts[0], 10) - 1;
-                    day = parseInt(parts[1], 10);
-                    year = parseInt(parts[2], 10);
+            // تحديد الفاصل المستخدم
+            for (const sep of separators) {
+                if (dateString.includes(sep)) {
+                    parts = dateString.split(sep);
+                    separator = sep;
+                    break;
                 }
             }
             
-            if (year && month !== undefined && day) {
-                if (isNaN(year) || isNaN(month) || isNaN(day)) {
-                    return null;
+            if (parts.length !== 3) {
+                return null;
+            }
+            
+            // تحويل الأجزاء إلى أرقام
+            let num1 = parseInt(parts[0], 10);
+            let num2 = parseInt(parts[1], 10);
+            let num3 = parseInt(parts[2], 10);
+            
+            if (isNaN(num1) || isNaN(num2) || isNaN(num3)) {
+                return null;
+            }
+            
+            let day, month, year;
+            
+            // التحقق من صحة السنة
+            if (num3 > 1000) {
+                // تنسيق YYYY/MM/DD أو YYYY/DD/MM
+                year = num3;
+                if (num1 > 12 && num1 <= 31) {
+                    // YYYY/DD/MM
+                    day = num1;
+                    month = num2;
+                } else {
+                    // YYYY/MM/DD
+                    month = num1;
+                    day = num2;
                 }
-                
-                const date = new Date(year, month, day);
-                if (date.getFullYear() === year && date.getMonth() === month && date.getDate() === day) {
-                    return date;
+            } else if (num1 > 1000) {
+                // تنسيق YYYY/MM/DD
+                year = num1;
+                month = num2;
+                day = num3;
+            } else if (num3 > 31) {
+                // تنسيق MM/DD/YYYY أو DD/MM/YYYY
+                year = num3;
+                if (num1 > 12) {
+                    // DD/MM/YYYY
+                    day = num1;
+                    month = num2;
+                } else {
+                    // MM/DD/YYYY
+                    month = num1;
+                    day = num2;
+                }
+            } else {
+                // تنسيق DD/MM/YY أو MM/DD/YY
+                year = num3 + 2000; // تحويل 26 إلى 2026
+                if (num1 > 12) {
+                    // DD/MM/YY
+                    day = num1;
+                    month = num2;
+                } else {
+                    // MM/DD/YY
+                    month = num1;
+                    day = num2;
                 }
             }
             
-            return null;
+            // التحقق من صحة الشهر واليوم
+            if (month < 1 || month > 12) {
+                // ربما تم عكس الشهر واليوم
+                let temp = month;
+                month = day;
+                day = temp;
+            }
+            
+            // التأكد من أن اليوم في النطاق الصحيح
+            if (day < 1 || day > 31) {
+                day = 1; // قيمة افتراضية
+            }
+            if (month < 1 || month > 12) {
+                month = 1; // قيمة افتراضية
+            }
+            if (year < 1900) {
+                year += 2000;
+            }
+            
+            return new Date(year, month - 1, day);
         }
         
         // تنسيق التاريخ رقمياً: يوم / شهر / سنة
@@ -1241,14 +1452,58 @@
             const printYear = now.getFullYear();
             const printDateStr = `${printDay} / ${printMonth} / ${printYear}`;
             
+            const printHours = now.getHours().toString().padStart(2, '0');
+            const printMinutes = now.getMinutes().toString().padStart(2, '0');
+            const printTimeStr = `${printHours}:${printMinutes}`;
+            
             let printTitle = "كافة المشاركين في الدورات والورش";
+            let searchDetails = `
+                <div style="margin-bottom: 10px;">
+                    <strong>نوع التقرير:</strong> تقرير عام لجميع المشاركين
+                </div>
+                <div style="margin-bottom: 5px;">
+                    <strong>عدد السجلات:</strong> ${participantsToPrint.length} سجل
+                </div>
+            `;
+            
             if (currentSearchTerm) {
                 printTitle = `نتائج البحث عن "${currentSearchTerm}"`;
+                searchDetails = `
+                    <div style="margin-bottom: 10px;">
+                        <strong>نوع التقرير:</strong> تقرير بحثي
+                    </div>
+                    <div style="margin-bottom: 5px;">
+                        <strong>كلمة البحث:</strong> "${currentSearchTerm}"
+                    </div>
+                    <div style="margin-bottom: 5px;">
+                        <strong>عدد النتائج:</strong> ${participantsToPrint.length} نتيجة
+                    </div>
+                `;
+            }
+            
+            if (participantsToPrint.length > 0) {
+                const uniqueCourses = [...new Set(participantsToPrint.map(p => p['اسم الدورة او الورشة'] || p['اسم الدورة'] || '').filter(c => c !== ''))];
+                const totalDuration = participantsToPrint.reduce((sum, p) => {
+                    const duration = p['مدة الدورة'] || '';
+                    const match = duration.match(/(\d+)/);
+                    return sum + (match ? parseInt(match[1]) : 0);
+                }, 0);
+                
+                searchDetails += `
+                    <div style="margin-bottom: 5px;">
+                        <strong>عدد الدورات المميزة:</strong> ${uniqueCourses.length} دورة/ورشة
+                    </div>
+                    <div style="margin-bottom: 5px;">
+                        <strong>إجمالي أيام التدريب:</strong> ${totalDuration} يوم
+                    </div>
+                `;
             }
             
             document.getElementById('printTitle').textContent = printTitle;
             document.getElementById('printDate').textContent = printDateStr;
+            document.getElementById('printTime').textContent = printTimeStr;
             document.getElementById('printCount').textContent = participantsToPrint.length;
+            document.getElementById('printSearchDetails').innerHTML = searchDetails;
             
             const tableBody = document.getElementById('printTableBody');
             tableBody.innerHTML = '';
@@ -1256,7 +1511,7 @@
             if (participantsToPrint.length === 0) {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="6" style="text-align: center; padding: 30px; color: #666;">
+                        <td colspan="7" style="text-align: center; padding: 30px; color: #666;">
                             لا توجد بيانات للطباعة
                         </td>
                     </tr>`;
@@ -1267,14 +1522,40 @@
                 const formattedDate = formatDateNumeric(participant['تاريخ انعقادها']);
                 const courseName = participant['اسم الدورة او الورشة'] || participant['اسم الدورة'] || 'غير محدد';
                 const duration = participant['مدة الدورة'] || 'غير محدد';
+                const participantName = participant['اسم المشارك'] || 'غير محدد';
+                
+                // الحصول على رابط الصورة للطباعة
+                let imageUrl = participant['صورة_المشارك'] || '';
+                let fileId = '';
+                let directImageUrl = '';
+                
+                if (imageUrl && imageUrl !== '' && imageUrl !== 'غير محدد' && imageUrl !== '#N/A' && imageUrl !== 'لم تتوفر صورة') {
+                    if (imageUrl.includes('drive.google.com')) {
+                        if (imageUrl.includes('/d/')) {
+                            fileId = imageUrl.split('/d/')[1].split('/')[0];
+                        } else if (imageUrl.includes('id=')) {
+                            fileId = imageUrl.split('id=')[1].split('&')[0];
+                        }
+                    }
+                    
+                    if (fileId) {
+                        directImageUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w100`;
+                    }
+                }
                 
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td style="font-size: 0.95rem;">${index + 1}</td>
-                    <td style="font-size: 0.95rem;">${participant['اسم المشارك'] || 'غير محدد'}</td>
+                    <td style="font-size: 0.95rem; text-align: center;">${index + 1}</td>
+                    <td style="font-size: 0.95rem; text-align: center;">
+                        ${directImageUrl ? `<a href="${directImageUrl}" target="_blank"><img src="${directImageUrl}" style="width: 60px; height: 60px; object-fit: cover; border: 1px solid #2c7873; border-radius: 4px;" onerror="this.onerror=null; this.parentElement.innerHTML='<div style=\'width:60px;height:60px;border:1px dashed #ccc;display:flex;align-items:center;justify-content:center;background:#f8f9fa;border-radius:4px;\'><span style=\'font-size:0.7rem;color:#6c757d;\'>لم تتوفر صورة</span></div>';">` : 
+                        `<div style="width:60px;height:60px;border:1px dashed #ccc;display:flex;align-items:center;justify-content:center;background:#f8f9fa;border-radius:4px;">
+                            <span style="font-size:0.7rem;color:#6c757d;">لم تتوفر صورة</span>
+                        </div>`}
+                    </td>
+                    <td style="font-size: 0.95rem;">${participantName}</td>
                     <td style="font-size: 0.95rem;">${courseName}</td>
-                    <td style="font-size: 0.95rem;">${formattedDate}</td>
-                    <td style="font-size: 0.95rem;">${duration}</td>
+                    <td style="font-size: 0.95rem; text-align: center;">${formattedDate}</td>
+                    <td style="font-size: 0.95rem; text-align: center;">${duration}</td>
                     <td style="font-size: 0.95rem;">${participant['مكان الانعقاد'] || 'غير محدد'}</td>
                 `;
                 tableBody.appendChild(row);
