@@ -324,7 +324,7 @@
 
         <div class="search-card">
             <div class="card-body">
-                <h4><i class="bi bi-search"></i> بحث عن المشاركين</h4>
+                <h4><i class="bi bi-search"></i> بحث عن المشاركين في الدورات والورش</h4>
                 <div class="row mt-3">
                     <div class="col-md-10">
                         <input type="text" id="searchInput" class="form-control" placeholder="اكتب اسم المشارك للبحث...">
@@ -383,6 +383,9 @@
                             <div class="loader mb-2" style="width: 30px; height: 30px;"></div>
                             <p class="text-muted">جاري التحميل...</p>
                         </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-top text-center">
+                        <small class="text-muted">الدورات المقررة غداً</small>
                     </div>
                 </div>
                 
@@ -471,7 +474,7 @@
         let filteredParticipants = [];
         let currentSearchTerm = "";
 
-        // تحديث التاريخ والوقت
+        // ==================== تحديث التاريخ والوقت ====================
         function updateDateTime() {
             const now = new Date();
             const dateStr = `${now.getDate().toString().padStart(2,'0')}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getFullYear()}`;
@@ -480,23 +483,137 @@
             document.getElementById('currentTimeDisplay').innerHTML = `<i class="bi bi-clock"></i> الوقت: ${timeStr}`;
         }
 
-        // تحميل البيانات من الشيت
+        // ==================== دوال تحليل وتنسيق التاريخ المحسنة ====================
+        function parseDate(dateString) {
+            if (!dateString || dateString === '' || dateString === 'غير محدد' || dateString === '#N/A') {
+                return null;
+            }
+            
+            let cleanDate = dateString.toString().trim();
+            let parts = [];
+            
+            // تجربة الفواصل المختلفة
+            if (cleanDate.includes('/')) {
+                parts = cleanDate.split('/');
+            } else if (cleanDate.includes('-')) {
+                parts = cleanDate.split('-');
+            } else if (cleanDate.includes('.')) {
+                parts = cleanDate.split('.');
+            } else {
+                const numbers = cleanDate.match(/\d+/g);
+                if (numbers && numbers.length >= 3) {
+                    parts = numbers;
+                }
+            }
+            
+            parts = parts.filter(p => p.trim() !== '').map(p => parseInt(p, 10));
+            
+            if (parts.length < 3) {
+                return null;
+            }
+            
+            let day, month, year;
+            
+            // تحديد الترتيب بناءً على قيم الأرقام
+            if (parts[0] > 31 && parts[0] < 3000) {
+                // صيغة YYYY/MM/DD
+                year = parts[0];
+                month = parts[1];
+                day = parts[2];
+            } else if (parts[2] > 31 && parts[2] < 3000) {
+                // صيغة DD/MM/YYYY
+                day = parts[0];
+                month = parts[1];
+                year = parts[2];
+            } else if (parts[2] > 31) {
+                // صيغة DD/MM/YY
+                day = parts[0];
+                month = parts[1];
+                year = parts[2] < 100 ? parts[2] + 2000 : parts[2];
+            } else if (parts[0] > 31) {
+                // صيغة YY/MM/DD
+                year = parts[0] < 100 ? parts[0] + 2000 : parts[0];
+                month = parts[1];
+                day = parts[2];
+            } else {
+                // افتراضي DD/MM/YYYY
+                day = parts[0];
+                month = parts[1];
+                year = parts[2] < 100 ? parts[2] + 2000 : parts[2];
+            }
+            
+            // التحقق من صحة القيم
+            if (day > 31) {
+                let temp = day;
+                day = month;
+                month = temp;
+            }
+            
+            if (month > 12) {
+                let temp = month;
+                month = day;
+                day = temp;
+            }
+            
+            day = Math.min(31, Math.max(1, day));
+            month = Math.min(12, Math.max(1, month));
+            year = year < 100 ? year + 2000 : year;
+            
+            return new Date(year, month - 1, day);
+        }
+
+        function isCourseTomorrow(dateString) {
+            const date = parseDate(dateString);
+            if (!date) return false;
+            
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            return date.getDate() === tomorrow.getDate() &&
+                   date.getMonth() === tomorrow.getMonth() &&
+                   date.getFullYear() === tomorrow.getFullYear();
+        }
+
+        function isCourseYesterday(dateString) {
+            const date = parseDate(dateString);
+            if (!date) return false;
+            
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            
+            return date.getDate() === yesterday.getDate() &&
+                   date.getMonth() === yesterday.getMonth() &&
+                   date.getFullYear() === yesterday.getFullYear();
+        }
+
+        function formatDate(dateString) {
+            const date = parseDate(dateString);
+            if (!date) return dateString || '';
+            
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            
+            return `${day}/${month}/${year}`;
+        }
+
+        // ==================== تحميل البيانات من الشيت ====================
         async function loadData() {
             try {
                 const response = await fetch(SHEET_URL);
                 const csvText = await response.text();
                 
-                // تحليل CSV
                 const lines = csvText.split('\n').filter(line => line.trim() !== '');
                 
                 if (lines.length < 2) {
                     throw new Error('لا توجد بيانات في الشيت');
                 }
 
-                // استخراج البيانات
                 allParticipants = [];
                 
-                for (let i = 1; i < lines.length; i++) { // نبدأ من 1 لتخطي العناوين
+                for (let i = 1; i < lines.length; i++) {
                     const columns = lines[i].split(',').map(col => col.replace(/^"|"$/g, '').trim());
                     
                     if (columns.length >= 5 && columns[1] && columns[1] !== '') {
@@ -537,17 +654,49 @@
                     <button class="btn btn-sm btn-outline-danger me-3" onclick="loadData()">إعادة المحاولة</button>
                 `;
                 
-                // بيانات تجريبية في حالة الفشل
                 loadSampleData();
             }
         }
 
-        // بيانات تجريبية للاختبار
+        // ==================== بيانات تجريبية للاختبار ====================
         function loadSampleData() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            
             allParticipants = [
-                { 'اسم المشارك': 'أحمد محمد', 'اسم الدورة': 'دورة سلامة الغذاء', 'تاريخ الانعقاد': getDateString(1), 'مكان الانعقاد': 'قاعة 1', 'مدة الدورة': 'يومين', 'image_g': '', 'image_h': '', 'image_i': '' },
-                { 'اسم المشارك': 'سارة خالد', 'اسم الدورة': 'ورشة التقنيات الحيوية', 'تاريخ الانعقاد': getDateString(2), 'مكان الانعقاد': 'مختبر 3', 'مدة الدورة': '3 أيام', 'image_g': '', 'image_h': '', 'image_i': '' },
-                { 'اسم المشارك': 'محمد علي', 'اسم الدورة': 'دورة HPLC', 'تاريخ الانعقاد': getDateString(-1), 'مكان الانعقاد': 'مختبر 2', 'مدة الدورة': 'يوم', 'image_g': '', 'image_h': '', 'image_i': '' }
+                { 
+                    'اسم المشارك': 'أحمد محمد', 
+                    'اسم الدورة': 'دورة سلامة الغذاء', 
+                    'تاريخ الانعقاد': `${tomorrow.getDate()}/${tomorrow.getMonth()+1}/${tomorrow.getFullYear()}`, 
+                    'مكان الانعقاد': 'قاعة المؤتمرات', 
+                    'مدة الدورة': 'يومين', 
+                    'image_g': '', 
+                    'image_h': '', 
+                    'image_i': '' 
+                },
+                { 
+                    'اسم المشارك': 'سارة خالد', 
+                    'اسم الدورة': 'ورشة التقنيات الحيوية', 
+                    'تاريخ الانعقاد': `${tomorrow.getDate()}/${tomorrow.getMonth()+1}/${tomorrow.getFullYear()}`, 
+                    'مكان الانعقاد': 'مختبر 3', 
+                    'مدة الدورة': '3 أيام', 
+                    'image_g': '', 
+                    'image_h': '', 
+                    'image_i': '' 
+                },
+                { 
+                    'اسم المشارك': 'محمد علي', 
+                    'اسم الدورة': 'دورة HPLC', 
+                    'تاريخ الانعقاد': `${yesterday.getDate()}/${yesterday.getMonth()+1}/${yesterday.getFullYear()}`, 
+                    'مكان الانعقاد': 'مختبر 2', 
+                    'مدة الدورة': 'يوم', 
+                    'image_g': '', 
+                    'image_h': '', 
+                    'image_i': '' 
+                }
             ];
             
             updateStatistics();
@@ -563,63 +712,16 @@
             `;
         }
 
-        function getDateString(daysFromNow) {
-            const date = new Date();
-            date.setDate(date.getDate() + daysFromNow);
-            return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
-        }
-
-        // تنسيق التاريخ
-        function formatDate(dateString) {
-            if (!dateString) return '';
-            const parts = dateString.split(/[\/\-.]/);
-            if (parts.length === 3) {
-                return `${parts[0].padStart(2,'0')}/${parts[1].padStart(2,'0')}/${parts[2]}`;
-            }
-            return dateString;
-        }
-
-        // التحقق من تاريخ الغد
-        function isTomorrow(dateString) {
-            if (!dateString) return false;
-            const today = new Date();
-            const tomorrow = new Date(today);
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            
-            const parts = dateString.split(/[\/\-.]/);
-            if (parts.length === 3) {
-                const d = parseInt(parts[0]), m = parseInt(parts[1]) - 1, y = parseInt(parts[2]);
-                return d === tomorrow.getDate() && m === tomorrow.getMonth() && y === tomorrow.getFullYear();
-            }
-            return false;
-        }
-
-        // التحقق من تاريخ الأمس
-        function isYesterday(dateString) {
-            if (!dateString) return false;
-            const today = new Date();
-            const yesterday = new Date(today);
-            yesterday.setDate(yesterday.getDate() - 1);
-            
-            const parts = dateString.split(/[\/\-.]/);
-            if (parts.length === 3) {
-                const d = parseInt(parts[0]), m = parseInt(parts[1]) - 1, y = parseInt(parts[2]);
-                return d === yesterday.getDate() && m === yesterday.getMonth() && y === yesterday.getFullYear();
-            }
-            return false;
-        }
-
-        // تحديث الإحصائيات
+        // ==================== تحديث الإحصائيات ====================
         function updateStatistics() {
             document.getElementById('totalParticipants').textContent = allParticipants.length;
             
             const uniqueCourses = new Set(allParticipants.map(p => p['اسم الدورة']));
             document.getElementById('totalCourses').textContent = uniqueCourses.size;
             
-            const tomorrowCount = allParticipants.filter(p => isTomorrow(p['تاريخ الانعقاد'])).length;
+            const tomorrowCount = allParticipants.filter(p => isCourseTomorrow(p['تاريخ الانعقاد'])).length;
             document.getElementById('tomorrowCourses').textContent = tomorrowCount;
             
-            // حساب متوسط المدة
             let totalDays = 0, count = 0;
             allParticipants.forEach(p => {
                 const match = (p['مدة الدورة'] || '').match(/\d+/);
@@ -632,13 +734,29 @@
             document.getElementById('averageDuration').textContent = avg > 0 ? avg + ' يوم' : '0';
         }
 
-        // عرض التنبيهات
+        // ==================== عرض التنبيهات (دورات الغد) ====================
         function displayAlerts() {
             const container = document.getElementById('alertsContainer');
-            const tomorrowCourses = allParticipants.filter(p => isTomorrow(p['تاريخ الانعقاد']));
+            
+            if (!allParticipants || allParticipants.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-4">
+                        <i class="bi bi-info-circle" style="font-size: 40px; color: #6c757d;"></i>
+                        <p class="mt-2 text-muted">لا توجد بيانات</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const tomorrowCourses = allParticipants.filter(p => isCourseTomorrow(p['تاريخ الانعقاد']));
             
             if (tomorrowCourses.length === 0) {
-                container.innerHTML = '<div class="text-center py-4"><i class="bi bi-check-circle text-success" style="font-size: 40px;"></i><p class="mt-2">لا توجد تنبيهات</p></div>';
+                container.innerHTML = `
+                    <div class="text-center py-4">
+                        <i class="bi bi-check-circle text-success" style="font-size: 40px;"></i>
+                        <p class="mt-2">لا توجد تنبيهات لدورات الغد</p>
+                    </div>
+                `;
                 return;
             }
             
@@ -646,48 +764,125 @@
             tomorrowCourses.forEach(course => {
                 html += `
                     <div class="alert-item">
-                        <div class="fw-bold">${course['اسم الدورة'] || 'دورة'}</div>
-                        <div><i class="bi bi-person"></i> ${course['اسم المشارك']}</div>
-                        <div class="small"><i class="bi bi-calendar"></i> ${formatDate(course['تاريخ الانعقاد'])} <span class="badge bg-warning">غداً</span></div>
+                        <div class="d-flex">
+                            <div class="alert-icon ms-2">
+                                <i class="bi bi-bell"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold mb-1">${course['اسم الدورة'] || 'دورة تدريبية'}</div>
+                                <div class="mb-1">
+                                    <i class="bi bi-person"></i>
+                                    <span>${course['اسم المشارك'] || 'مشارك'}</span>
+                                </div>
+                                <div class="small">
+                                    <i class="bi bi-calendar"></i>
+                                    <span class="date-display">${formatDate(course['تاريخ الانعقاد'])}</span>
+                                    <span class="badge bg-warning text-dark ms-1">غداً</span>
+                                </div>
+                                ${course['مدة الدورة'] ? `
+                                    <div class="small mt-1">
+                                        <i class="bi bi-clock"></i> ${course['مدة الدورة']}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
                     </div>
                 `;
             });
+            
             container.innerHTML = html;
+            document.getElementById('tomorrowCourses').textContent = tomorrowCourses.length;
         }
 
-        // عرض دورات الأمس
+        // ==================== عرض دورات الأمس ====================
         function displayYesterdayCourses() {
             const container = document.getElementById('yesterdayContainer');
-            const yesterdayCourses = allParticipants.filter(p => isYesterday(p['تاريخ الانعقاد']));
             
-            document.getElementById('yesterdayCount').textContent = yesterdayCourses.length;
-            document.getElementById('yesterdayParticipants').textContent = yesterdayCourses.length;
-            
-            if (yesterdayCourses.length === 0) {
-                container.innerHTML = '<div class="text-center py-3"><i class="bi bi-calendar-x text-muted" style="font-size: 30px;"></i><p class="mt-2 small">لا توجد دورات</p></div>';
+            if (!allParticipants || allParticipants.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-3">
+                        <i class="bi bi-calendar-x text-muted" style="font-size: 30px;"></i>
+                        <p class="mt-2 small">لا توجد بيانات</p>
+                    </div>
+                `;
+                document.getElementById('yesterdayCount').textContent = '0';
+                document.getElementById('yesterdayParticipants').textContent = '0';
                 return;
             }
             
-            let html = '';
+            const yesterdayCourses = allParticipants.filter(p => isCourseYesterday(p['تاريخ الانعقاد']));
+            
+            if (yesterdayCourses.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-3">
+                        <i class="bi bi-calendar-check text-muted" style="font-size: 30px;"></i>
+                        <p class="mt-2 small">لا توجد دورات منعقدة أمس</p>
+                    </div>
+                `;
+                document.getElementById('yesterdayCount').textContent = '0';
+                document.getElementById('yesterdayParticipants').textContent = '0';
+                return;
+            }
+            
+            const coursesByType = {};
             yesterdayCourses.forEach(course => {
+                const courseName = course['اسم الدورة'] || 'دورة تدريبية';
+                if (!coursesByType[courseName]) {
+                    coursesByType[courseName] = {
+                        name: courseName,
+                        participants: [],
+                        date: course['تاريخ الانعقاد']
+                    };
+                }
+                coursesByType[courseName].participants.push(course['اسم المشارك'] || 'مشارك');
+            });
+            
+            let html = '';
+            Object.values(coursesByType).forEach(course => {
                 html += `
                     <div class="yesterday-item">
-                        <div class="fw-bold">${course['اسم الدورة'] || 'دورة'}</div>
-                        <div class="small"><i class="bi bi-person"></i> ${course['اسم المشارك']}</div>
-                        <div class="small text-muted">${formatDate(course['تاريخ الانعقاد'])}</div>
+                        <div class="d-flex">
+                            <div class="yesterday-icon ms-2">
+                                <i class="bi bi-calendar-check"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold mb-1">${course.name}</div>
+                                <div class="small mb-1">
+                                    <i class="bi bi-people"></i>
+                                    <span>${course.participants.length} مشارك</span>
+                                    <span class="badge bg-secondary ms-1">منتهية</span>
+                                </div>
+                                <div class="small text-muted">
+                                    <i class="bi bi-calendar"></i>
+                                    ${formatDate(course.date)}
+                                </div>
+                                <div class="mt-2">
+                                    <div class="small fw-bold">المشاركون:</div>
+                                    ${course.participants.map(name => `
+                                        <div class="participant-item">
+                                            <i class="bi bi-person-fill"></i> ${name}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 `;
             });
+            
             container.innerHTML = html;
+            
+            document.getElementById('yesterdayCount').textContent = Object.keys(coursesByType).length;
+            document.getElementById('yesterdayParticipants').textContent = yesterdayCourses.length;
         }
 
-        // عرض الصور
+        // ==================== عرض الصور ====================
         function displayImages(g, h, i) {
             let html = '<div class="images-container">';
             
             [g, h, i].forEach((img, index) => {
-                if (img && img !== '' && img !== 'غير محدد') {
-                    html += `<div class="image-item" onclick="window.open('${img}', '_blank')"><img src="${img}" onerror="this.parentElement.innerHTML='<div class=\'no-image-box\'><i class=\'bi bi-image\'></i></div>'"></div>`;
+                if (img && img !== '' && img !== 'غير محدد' && img !== '#N/A') {
+                    html += `<div class="image-item" onclick="window.open('${img}', '_blank')"><img src="${img}" onerror="this.parentElement.innerHTML='<div class=\\'no-image-box\\'><i class=\\'bi bi-image\\'></i></div>'"></div>`;
                 } else {
                     html += `<div class="no-image-box"><i class="bi bi-image"></i></div>`;
                 }
@@ -697,7 +892,7 @@
             return html;
         }
 
-        // البحث
+        // ==================== البحث ====================
         function searchParticipants() {
             currentSearchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
             
@@ -720,7 +915,7 @@
             document.getElementById('resultsCount').textContent = filteredParticipants.length;
         }
 
-        // عرض النتائج
+        // ==================== عرض نتائج البحث ====================
         function displayResults(participants) {
             const container = document.getElementById('participantsContainer');
             
@@ -748,8 +943,8 @@
                             <div class="col-md-2"><span class="course-badge">${p['اسم الدورة'] || ''}</span></div>
                             <div class="col-md-2">
                                 <span class="date-display">${formatDate(p['تاريخ الانعقاد'])}</span>
-                                ${isTomorrow(p['تاريخ الانعقاد']) ? '<span class="badge bg-warning d-block mt-1">غداً</span>' : ''}
-                                ${isYesterday(p['تاريخ الانعقاد']) ? '<span class="badge bg-secondary d-block mt-1">أمس</span>' : ''}
+                                ${isCourseTomorrow(p['تاريخ الانعقاد']) ? '<span class="badge bg-warning d-block mt-1">غداً</span>' : ''}
+                                ${isCourseYesterday(p['تاريخ الانعقاد']) ? '<span class="badge bg-secondary d-block mt-1">أمس</span>' : ''}
                             </div>
                             <div class="col-md-2"><span class="duration-badge">${p['مدة الدورة'] || ''}</span></div>
                             <div class="col-md-2"><span class="location-badge">${p['مكان الانعقاد'] || ''}</span></div>
@@ -761,7 +956,7 @@
             container.innerHTML = html;
         }
 
-        // الطباعة
+        // ==================== الطباعة ====================
         function setupPrinting() {
             document.getElementById('printButton').addEventListener('click', function() {
                 const participantsToPrint = currentSearchTerm ? filteredParticipants : allParticipants;
@@ -771,10 +966,12 @@
                     return;
                 }
                 
-                const dateStr = new Date().toLocaleDateString('ar-EG');
+                const now = new Date();
+                const dateStr = `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
+                
                 document.getElementById('printSearchDetails').innerHTML = `
                     <p><strong>نتائج البحث:</strong> ${currentSearchTerm || 'جميع المشاركين'}</p>
-                    <p><strong>التاريخ:</strong> ${dateStr}</p>
+                    <p><strong>تاريخ الطباعة:</strong> ${dateStr}</p>
                     <p><strong>عدد النتائج:</strong> ${participantsToPrint.length}</p>
                 `;
                 
@@ -800,11 +997,11 @@
                 document.body.innerHTML = printContent;
                 window.print();
                 document.body.innerHTML = originalContent;
-                location.reload(); // إعادة تحميل الصفحة بعد الطباعة
+                window.location.reload();
             });
         }
 
-        // تهيئة الصفحة
+        // ==================== تهيئة الصفحة ====================
         document.addEventListener('DOMContentLoaded', function() {
             updateDateTime();
             setInterval(updateDateTime, 1000);
