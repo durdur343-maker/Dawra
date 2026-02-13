@@ -7,689 +7,430 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <style>
-        :root {
-            --primary-color: #2c7873;
-            --secondary-color: #6fb98f;
-            --accent-color: #ff9a3c;
-            --yesterday-color: #6c757d;
-            --light-color: #f8f9fa;
-            --dark-color: #2c3e50;
-            --duration-color: #6f42c1;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+        
         body {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding-bottom: 40px;
+            padding: 20px;
         }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
         .main-header {
-            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
             padding: 30px 0;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 5px 20px rgba(44, 120, 115, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             margin-bottom: 30px;
-        }
-        .department-name {
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.9);
-            letter-spacing: 0.5px;
         }
         
         .search-card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             margin-bottom: 25px;
-            background-color: white;
-            border-top: 5px solid var(--accent-color);
         }
         
         .results-card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            background-color: white;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
         
         .alert-card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            background: linear-gradient(135deg, #fff9e6 0%, #fff2cc 100%);
-            border-right: 6px solid #ff9a3c;
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe4cc 100%);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(255, 154, 0, 0.2);
+            margin-bottom: 20px;
         }
         
         .yesterday-card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-right: 6px solid var(--yesterday-color);
-            margin-top: 20px;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e6ecf5 100%);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(108, 117, 125, 0.2);
+            margin-bottom: 20px;
         }
         
         .btn-primary-custom {
-            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             border: none;
-            padding: 10px 25px;
-            border-radius: 10px;
-            font-weight: 600;
+            padding: 12px 25px;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            width: 100%;
+            cursor: pointer;
             transition: all 0.3s;
         }
         
         .btn-primary-custom:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(44, 120, 115, 0.3);
+            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.4);
         }
         
         .btn-print-custom {
-            background: linear-gradient(90deg, #5a6c7d 0%, #7d8fa1 100%);
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
             border: none;
-            padding: 10px 25px;
-            border-radius: 10px;
-            font-weight: 600;
+            padding: 8px 20px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
             transition: all 0.3s;
         }
         
         .btn-print-custom:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(90, 108, 125, 0.3);
+            box-shadow: 0 5px 15px rgba(44, 62, 80, 0.4);
         }
         
         .participant-row {
-            padding: 18px 15px;
+            padding: 15px;
             border-bottom: 1px solid #eee;
-            transition: background-color 0.2s;
-            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .participant-row:nth-child(even) {
+            background: #f8f9fa;
         }
         
         .participant-row:hover {
-            background-color: rgba(111, 185, 143, 0.05);
-        }
-        
-        .participant-row:last-child {
-            border-bottom: none;
+            background: #e9ecef;
+            transform: translateX(-5px);
         }
         
         .result-header {
-            background-color: rgba(44, 120, 115, 0.08);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
             padding: 15px;
-            border-radius: 10px 10px 0 0;
-            font-weight: 600;
-            color: var(--dark-color);
-            font-size: 1.1rem;
         }
         
         .alert-item {
+            background: white;
             padding: 15px;
-            margin-bottom: 15px;
-            background-color: white;
-            border-radius: 10px;
-            border-left: 4px solid var(--accent-color);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 15px;
+            margin-bottom: 10px;
+            border-right: 5px solid #ff9a3c;
+            transition: all 0.3s;
+        }
+        
+        .alert-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 154, 60, 0.3);
         }
         
         .yesterday-item {
+            background: white;
             padding: 12px;
-            margin-bottom: 12px;
-            background-color: white;
-            border-radius: 8px;
-            border-left: 4px solid var(--yesterday-color);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border-right: 5px solid #6c757d;
+            transition: all 0.3s;
+        }
+        
+        .yesterday-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
         }
         
         .alert-icon {
             width: 40px;
             height: 40px;
-            background-color: #ff9a3c;
+            background: #ff9a3c;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 18px;
         }
         
         .yesterday-icon {
             width: 35px;
             height: 35px;
-            background-color: var(--yesterday-color);
+            background: #6c757d;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 16px;
         }
         
         .course-badge {
-            background-color: rgba(44, 120, 115, 0.1);
-            color: var(--primary-color);
-            padding: 6px 14px;
+            background: rgba(30, 60, 114, 0.1);
+            color: #1e3c72;
+            padding: 5px 12px;
             border-radius: 20px;
-            font-size: 0.95rem;
-            font-weight: 600;
+            display: inline-block;
+            font-weight: 500;
         }
         
         .location-badge {
-            background-color: rgba(111, 185, 143, 0.1);
-            color: var(--secondary-color);
-            padding: 6px 14px;
+            background: rgba(52, 152, 219, 0.1);
+            color: #2980b9;
+            padding: 5px 12px;
             border-radius: 20px;
-            font-size: 0.95rem;
-            font-weight: 600;
+            display: inline-block;
+            font-weight: 500;
         }
         
         .duration-badge {
-            background-color: rgba(111, 66, 193, 0.1);
-            color: var(--duration-color);
-            padding: 6px 14px;
+            background: rgba(142, 68, 173, 0.1);
+            color: #8e44ad;
+            padding: 5px 12px;
             border-radius: 20px;
-            font-size: 0.95rem;
-            font-weight: 600;
+            display: inline-block;
+            font-weight: 500;
         }
         
         .empty-state {
-            padding: 60px 20px;
             text-align: center;
+            padding: 50px 20px;
             color: #6c757d;
-        }
-        
-        .empty-state i {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            opacity: 0.3;
         }
         
         .loader {
             display: inline-block;
-            width: 30px;
-            height: 30px;
-            border: 3px solid rgba(44, 120, 115, 0.2);
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #1e3c72;
             border-radius: 50%;
-            border-top-color: var(--primary-color);
-            animation: spin 1s ease-in-out infinite;
+            animation: spin 1s linear infinite;
         }
         
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
-        /* تحسينات الطباعة */
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            
-            #printable-results, #printable-results * {
-                visibility: visible;
-            }
-            
-            #printable-results {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                padding: 20px;
-                font-size: 12pt;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            }
-            
-            .print-header {
-                text-align: center;
-                margin-bottom: 30px;
-                padding-bottom: 20px;
-                border-bottom: 2px solid #2c7873;
-            }
-            
-            .print-header h2 {
-                font-size: 24pt;
-                margin-bottom: 10px;
-                color: #2c7873;
-            }
-            
-            .print-header h4 {
-                font-size: 18pt;
-                margin-bottom: 15px;
-                color: #6fb98f;
-            }
-            
-            .print-table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 20px;
-                margin-bottom: 30px;
-            }
-            
-            .print-table th {
-                background-color: #f2f2f2;
-                padding: 12px 8px;
-                border: 1px solid #ddd;
-                text-align: right;
-                font-weight: bold;
-                font-size: 1rem;
-                color: #2c3e50;
-            }
-            
-            .print-table td {
-                padding: 10px 8px;
-                border: 1px solid #ddd;
-                font-size: 0.95rem;
-            }
-            
-            .print-table tr:nth-child(even) {
-                background-color: #f9f9f9;
-            }
-            
-            .print-footer {
-                margin-top: 40px;
-                padding-top: 20px;
-                border-top: 1px solid #ccc;
-                font-size: 10pt;
-                color: #666;
-            }
-        }
-        
-        /* نمط تفاصيل البحث في الطباعة */
-        #printSearchDetails {
-            margin-bottom: 30px;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            border-right: 4px solid #2c7873;
-            font-size: 11pt;
-            line-height: 1.6;
-        }
-
-        #printSearchDetails div {
-            margin-bottom: 8px;
-        }
-
-        #printSearchDetails strong {
-            color: #2c7873;
-            min-width: 120px;
-            display: inline-block;
-        }
-        
-        .print-header {
-            display: none;
-        }
-        
-        .date-display {
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            direction: ltr;
-            display: inline-block;
-            background-color: #f8f9fa;
-            padding: 3px 10px;
-            border-radius: 4px;
-            border: 1px solid #dee2e6;
-            font-size: 1rem;
-        }
-        
-        .column-header {
-            font-weight: 600;
-            color: var(--dark-color);
-            padding-bottom: 10px;
-            border-bottom: 2px solid #eee;
-            margin-bottom: 10px;
-            font-size: 1.05rem;
-        }
-        
-        @media (max-width: 992px) {
-            .participant-row .row > div {
-                margin-bottom: 10px;
-            }
-            
-            .duration-badge, .location-badge, .course-badge {
-                display: block;
-                margin-bottom: 5px;
-            }
-            
-            .yesterday-item .d-flex {
-                flex-direction: column;
-            }
-            
-            .yesterday-item .yesterday-icon {
-                margin-bottom: 10px;
-            }
-            
-            .participant-row {
-                font-size: 0.95rem;
-            }
-            
-            .course-badge, .location-badge, .duration-badge {
-                font-size: 0.9rem;
-                padding: 5px 12px;
-            }
-        }
-        
-        .yesterday-badge {
-            background-color: rgba(108, 117, 125, 0.1);
-            color: var(--yesterday-color);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        
-        .stats-number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .stats-label {
-            font-size: 0.85rem;
-            color: #6c757d;
-        }
-        
-        .participant-name {
-            font-size: 1.05rem;
-            font-weight: 600;
-        }
-        
-        .participant-details {
-            font-size: 0.9rem;
-            color: #6c757d;
-        }
-        
-        .badge {
-            font-size: 0.85rem;
-        }
-        
-        /* تحسينات لعرض أسماء المشاركين في دورات الأمس */
-        .participants-list {
-            margin-top: 8px;
-            padding: 8px;
-            background-color: #f8f9fa;
-            border-radius: 6px;
-            border-right: 3px solid var(--yesterday-color);
-        }
-        
-        .participant-item {
-            padding: 4px 0;
-            border-bottom: 1px dashed #dee2e6;
-            font-size: 0.9rem;
-        }
-        
-        .participant-item:last-child {
-            border-bottom: none;
-        }
-        
-        .participant-item i {
-            color: var(--yesterday-color);
-            margin-left: 5px;
-        }
-        
-        .show-more-btn {
-            background: none;
-            border: none;
-            color: var(--primary-color);
-            font-size: 0.85rem;
-            padding: 5px 10px;
-            cursor: pointer;
-            text-decoration: underline;
-            display: inline-flex;
-            align-items: center;
-        }
-        
-        .show-more-btn:hover {
-            color: var(--secondary-color);
-        }
-
-        /* أنماط عرض الصور - صورة مربعة بدون زر حفظ */
-        .profile-image-container {
-            width: 100px;
-            height: 100px;
-            overflow: hidden;
-            border: 2px solid var(--primary-color);
-            box-shadow: 0 2px 8px rgba(44, 120, 115, 0.2);
-            background-color: white;
-            transition: all 0.3s ease;
+        .images-container {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            gap: 5px;
+            margin-top: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .image-item {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #1e3c72;
             border-radius: 8px;
+            overflow: hidden;
             cursor: pointer;
+            transition: all 0.3s;
         }
-
-        .profile-image-container:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(44, 120, 115, 0.3);
+        
+        .image-item:hover {
+            transform: scale(1.1);
+            border-color: #ff9a3c;
         }
-
-        .profile-image-container img {
+        
+        .image-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
+        
         .no-image-box {
-            width: 100px;
-            height: 100px;
+            width: 50px;
+            height: 50px;
             border: 2px dashed #ccc;
-            background-color: #f8f9fa;
+            border-radius: 8px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
+            background: #f8f9fa;
+            color: #999;
+            font-size: 10px;
             text-align: center;
-            font-size: 0.75rem;
-            color: #6c757d;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 8px;
         }
-
-        .no-image-box:hover {
-            border-color: var(--primary-color);
-            background-color: #e9ecef;
-        }
-
-        .no-image-box i {
-            font-size: 1.8rem;
+        
+        .participant-name {
+            font-weight: bold;
+            color: #1e3c72;
             margin-bottom: 5px;
-            color: #adb5bd;
+            font-size: 1.1rem;
         }
-
-        .no-image-box span {
-            font-size: 0.7rem;
-            font-weight: 500;
+        
+        .date-display {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 3px 8px;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+            display: inline-block;
         }
-
-        /* تنسيق للشاشات الصغيرة */
-        @media (max-width: 768px) {
-            .profile-image-container,
-            .no-image-box {
-                width: 80px;
-                height: 80px;
-            }
+        
+        .stats-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        
+        .text-primary { color: #1e3c72 !important; }
+        .text-success { color: #28a745 !important; }
+        .text-warning { color: #ff9a3c !important; }
+        .text-purple { color: #8e44ad !important; }
+        
+        .column-header {
+            font-weight: bold;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #1e3c72;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-right: 5px solid #dc3545;
         }
     </style>
 </head>
 <body>
-    <!-- رأس الصفحة -->
-    <header class="main-header no-print">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <h1 class="mb-2"><i class="bi bi-mortarboard"></i> نظام إدارة الدورات والورش</h1>
-                    <h4 class="department-name">قسم علوم الأغذية والتقانات الأحيائية</h4>
-                </div>
-                <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                    <div class="text-white-50" id="currentDateDisplay"></div>
-                    <div class="mt-1" id="currentTimeDisplay"></div>
+    <div class="container">
+        <header class="main-header">
+            <div class="container text-center text-md-start">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1><i class="bi bi-mortarboard"></i> نظام إدارة الدورات والورش</h1>
+                        <h4>قسم علوم الأغذية والتقانات الأحيائية</h4>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <div id="currentDateDisplay"></div>
+                        <div id="currentTimeDisplay"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <div class="container no-print">
-        <!-- بطاقة البحث -->
+        <!-- رسالة خطأ مخفية -->
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+
         <div class="search-card">
-            <div class="card-body p-4">
-                <h4 class="card-title mb-4"><i class="bi bi-search me-2"></i>بحث عن المشارك في الدورات والورش</h4>
-                <div class="row g-3">
+            <div class="card-body">
+                <h4><i class="bi bi-search"></i> بحث عن المشاركين</h4>
+                <div class="row mt-3">
                     <div class="col-md-10">
-                        <div class="input-group">
-                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-person"></i></span>
-                            <input type="text" id="searchInput" class="form-control border-start-0 py-3" placeholder="اكتب اسم المشارك للبحث في الدورات والورش...">
-                        </div>
+                        <input type="text" id="searchInput" class="form-control" placeholder="اكتب اسم المشارك للبحث...">
                     </div>
                     <div class="col-md-2">
-                        <button id="searchButton" class="btn btn-primary-custom w-100 py-3">
-                            <i class="bi bi-search me-2"></i>بحث
+                        <button id="searchButton" class="btn btn-primary-custom">
+                            <i class="bi bi-search"></i> بحث
                         </button>
                     </div>
-                </div>
-                <div class="mt-3 text-muted small">
-                    <i class="bi bi-info-circle me-1"></i> اكتب اسم المشارك كاملاً أو جزءاً منه للعثور على سجلات الدورات والورش
                 </div>
             </div>
         </div>
 
         <div class="row">
-            <!-- قسم النتائج -->
             <div class="col-lg-8 mb-4">
                 <div class="results-card">
                     <div class="result-header d-flex justify-content-between align-items-center">
                         <div>
-                            <i class="bi bi-list-task me-2"></i>نتائج البحث
-                            <span id="resultsCount" class="badge bg-primary-custom ms-2">0</span>
+                            <i class="bi bi-list-task"></i> نتائج البحث
+                            <span id="resultsCount" class="badge bg-light text-dark ms-2">0</span>
                         </div>
                         <button id="printButton" class="btn btn-print-custom btn-sm">
-                            <i class="bi bi-printer me-2"></i>طباعة النتائج
+                            <i class="bi bi-printer"></i> طباعة
                         </button>
                     </div>
                     
-                    <div class="card-body p-0">
-                        <!-- عناوين الأعمدة -->
-                        <div class="column-header px-3 d-none d-md-block">
-                            <div class="row">
-                                <div class="col-md-1">
-                                    <i class="bi bi-hash"></i> م
-                                </div>
-                                <div class="col-md-3">
-                                    <i class="bi bi-person"></i> اسم المشارك والصورة
-                                </div>
-                                <div class="col-md-2">
-                                    <i class="bi bi-journal-text"></i> الدورة/الورشة
-                                </div>
-                                <div class="col-md-2">
-                                    <i class="bi bi-calendar-event"></i> تاريخ الانعقاد
-                                </div>
-                                <div class="col-md-2">
-                                    <i class="bi bi-clock"></i> مدة الدورة
-                                </div>
-                                <div class="col-md-2">
-                                    <i class="bi bi-geo-alt"></i> مكان الانعقاد
-                                </div>
-                            </div>
+                    <div class="column-header d-none d-md-block">
+                        <div class="row">
+                            <div class="col-md-1">م</div>
+                            <div class="col-md-3">اسم المشارك والصور</div>
+                            <div class="col-md-2">الدورة</div>
+                            <div class="col-md-2">التاريخ</div>
+                            <div class="col-md-2">المدة</div>
+                            <div class="col-md-2">المكان</div>
                         </div>
-                        
-                        <div id="participantsContainer">
-                            <!-- ستظهر النتائج هنا -->
-                            <div class="empty-state">
-                                <i class="bi bi-journal-text"></i>
-                                <h5 class="mt-3">ابدأ بالبحث عن مشارك</h5>
-                                <p class="text-muted">اكتب اسم المشارك في حقل البحث أعلاه لعرض سجلات الدورات والورش الخاصة به</p>
-                            </div>
+                    </div>
+                    
+                    <div id="participantsContainer">
+                        <div class="empty-state">
+                            <div class="loader mb-3"></div>
+                            <h5>جاري تحميل البيانات من الشيت...</h5>
+                            <p class="text-muted">الرجاء الانتظار</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- الشريط الجانبي -->
-            <div class="col-lg-4 mb-4">
-                <!-- قسم التنبيهات -->
+            <div class="col-lg-4">
                 <div class="alert-card">
-                    <div class="card-body">
-                        <h4 class="card-title mb-4">
-                            <div class="alert-icon d-inline-flex me-2">
-                                <i class="bi bi-bell"></i>
-                            </div>
-                            تنبيهات الدورات والورش
-                        </h4>
-                        
-                        <div id="alertsContainer">
-                            <!-- ستظهر التنبيهات هنا -->
-                            <div class="text-center py-4">
-                                <div class="loader mx-auto mb-3"></div>
-                                <p class="text-muted small">جاري تحميل التنبيهات...</p>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-4 pt-3 border-top text-center">
-                            <small class="text-muted">
-                                <i class="bi bi-info-circle me-1"></i>يتم عرض الدورات والورش المقرر عقدها غداً
-                            </small>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="alert-icon ms-2"><i class="bi bi-bell"></i></div>
+                        <h4 class="mb-0">تنبيهات الدورات</h4>
+                    </div>
+                    <div id="alertsContainer">
+                        <div class="text-center py-4">
+                            <div class="loader mb-2" style="width: 30px; height: 30px;"></div>
+                            <p class="text-muted">جاري التحميل...</p>
                         </div>
                     </div>
                 </div>
                 
-                <!-- قسم دورات الأمس -->
                 <div class="yesterday-card">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">
-                            <div class="yesterday-icon d-inline-flex me-2">
-                                <i class="bi bi-calendar-check"></i>
-                            </div>
-                            الدورات المنعقدة يوم أمس
-                        </h5>
-                        
-                        <div id="yesterdayContainer">
-                            <!-- ستظهر دورات الأمس هنا -->
-                            <div class="text-center py-3">
-                                <div class="loader mx-auto mb-2"></div>
-                                <p class="text-muted small">جاري تحميل دورات الأمس...</p>
-                            </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="yesterday-icon ms-2"><i class="bi bi-calendar-check"></i></div>
+                        <h5 class="mb-0">الدورات المنعقدة أمس</h5>
+                    </div>
+                    <div id="yesterdayContainer">
+                        <div class="text-center py-3">
+                            <div class="loader mb-2" style="width: 25px; height: 25px;"></div>
+                            <p class="text-muted small">جاري التحميل...</p>
                         </div>
-                        
-                        <div class="mt-3 pt-3 border-top">
-                            <div class="row text-center">
-                                <div class="col-6">
-                                    <div class="stats-number text-secondary" id="yesterdayCount">0</div>
-                                    <div class="stats-label">عدد الدورات</div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="stats-number text-secondary" id="yesterdayParticipants">0</div>
-                                    <div class="stats-label">عدد المشاركين</div>
-                                </div>
+                    </div>
+                    
+                    <div class="mt-3 pt-3 border-top">
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <div class="stats-number" id="yesterdayCount">0</div>
+                                <div class="text-muted">عدد الدورات</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stats-number" id="yesterdayParticipants">0</div>
+                                <div class="text-muted">عدد المشاركين</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- إحصائيات سريعة -->
-                <div class="card mt-4 border-0 shadow-sm">
+                <div class="card mt-4">
                     <div class="card-body">
-                        <h6 class="card-title mb-3"><i class="bi bi-graph-up me-2"></i>إحصائيات سريعة</h6>
+                        <h6 class="mb-3"><i class="bi bi-graph-up"></i> إحصائيات سريعة</h6>
                         <div class="row text-center">
                             <div class="col-6 mb-3">
-                                <div class="p-3 rounded bg-light">
-                                    <div class="h4 text-primary mb-1" id="totalParticipants">0</div>
-                                    <div class="small text-muted">إجمالي المشاركين</div>
-                                </div>
+                                <div class="stats-number" id="totalParticipants">0</div>
+                                <div class="text-muted">إجمالي المشاركين</div>
                             </div>
                             <div class="col-6 mb-3">
-                                <div class="p-3 rounded bg-light">
-                                    <div class="h4 text-success mb-1" id="totalCourses">0</div>
-                                    <div class="small text-muted">عدد الدورات</div>
-                                </div>
+                                <div class="stats-number" id="totalCourses">0</div>
+                                <div class="text-muted">عدد الدورات</div>
                             </div>
                             <div class="col-6">
-                                <div class="p-3 rounded bg-light">
-                                    <div class="h4 text-warning mb-1" id="tomorrowCourses">0</div>
-                                    <div class="small text-muted">دورات غداً</div>
-                                </div>
+                                <div class="stats-number" id="tomorrowCourses">0</div>
+                                <div class="text-muted">دورات غداً</div>
                             </div>
                             <div class="col-6">
-                                <div class="p-3 rounded bg-light">
-                                    <div class="h4 text-purple mb-1" id="averageDuration">0</div>
-                                    <div class="small text-muted">المدة المتوسطة</div>
-                                </div>
+                                <div class="stats-number" id="averageDuration">0</div>
+                                <div class="text-muted">المدة المتوسطة</div>
                             </div>
                         </div>
                     </div>
@@ -698,908 +439,383 @@
         </div>
     </div>
 
-    <!-- قسم الطباعة (مخفي على الشاشة) -->
+    <!-- قسم الطباعة المخفي -->
     <div id="printable-results" style="display: none;">
-        <div class="print-header">
-            <h2 style="text-align: center; margin-bottom: 10px;">نظام إدارة الدورات والورش</h2>
-            <h4 style="text-align: center; margin-bottom: 20px; color: #2c7873;">قسم علوم الأغذية والتقانات الأحيائية</h4>
-            <hr style="border-color: #333; margin-bottom: 20px;">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <strong id="printTitle" style="font-size: 16pt;"></strong>
-            </div>
-        </div>
-        
-        <div id="printSearchDetails" style="margin-bottom: 30px; padding: 15px; background-color: #f8f9fa; border-radius: 8px; border-right: 4px solid #2c7873;">
-        </div>
-        
-        <table class="print-table" id="printTable">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>الصورة</th>
-                    <th>اسم المشارك</th>
-                    <th>اسم الدورة/الورشة</th>
-                    <th>تاريخ الانعقاد</th>
-                    <th>مدة الدورة</th>
-                    <th>مكان الانعقاد</th>
-                </tr>
-            </thead>
-            <tbody id="printTableBody">
-            </tbody>
-        </table>
-        
-        <div class="print-footer" style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ccc;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div style="font-size: 10pt; color: #666;">
-                    <p>عدد النتائج: <span id="printCount">0</span></p>
-                    <p>تم إنشاء هذا التقرير تلقائياً من نظام إدارة الدورات</p>
-                </div>
-                <div style="text-align: left; font-size: 10pt; color: #666;">
-                    <p>تاريخ الطباعة: <span id="printDate"></span></p>
-                    <p>وقت الطباعة: <span id="printTime"></span></p>
-                </div>
-            </div>
+        <div style="padding: 20px;">
+            <h2 style="text-align: center;">نظام إدارة الدورات والورش</h2>
+            <h4 style="text-align: center; color: #1e3c72;">قسم علوم الأغذية والتقانات الأحيائية</h4>
+            <hr>
+            <div id="printSearchDetails"></div>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                <thead>
+                    <tr style="background: #1e3c72; color: white;">
+                        <th style="padding: 10px; border: 1px solid #dee2e6;">#</th>
+                        <th style="padding: 10px; border: 1px solid #dee2e6;">الاسم</th>
+                        <th style="padding: 10px; border: 1px solid #dee2e6;">الدورة</th>
+                        <th style="padding: 10px; border: 1px solid #dee2e6;">التاريخ</th>
+                        <th style="padding: 10px; border: 1px solid #dee2e6;">المدة</th>
+                        <th style="padding: 10px; border: 1px solid #dee2e6;">المكان</th>
+                    </tr>
+                </thead>
+                <tbody id="printTableBody"></tbody>
+            </table>
         </div>
     </div>
 
-    <!-- السكريبتات -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // رابط البيانات من Google Sheets
-        const DATA_SOURCE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTpF2IWMRIIz1LwGezmX7s29kYzSyjoZvy4JqvXwG0SPMABME5Tl17e4wWqOfYQNvzHZEoOsN78qBFH/pub?output=csv";
+        // رابط الشيت - غير هذا الرابط برابط الشيت الخاص بك
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTpF2IWMRIIz1LwGezmX7s29kYzSyjoZvy4JqvXwG0SPMABME5Tl17e4wWqOfYQNvzHZEoOsN78qBFH/pub?output=csv";
         
-        // متغيرات التخزين
         let allParticipants = [];
         let filteredParticipants = [];
         let currentSearchTerm = "";
-        
+
         // تحديث التاريخ والوقت
         function updateDateTime() {
             const now = new Date();
-            const day = now.getDate();
-            const month = now.getMonth() + 1;
-            const year = now.getFullYear();
-            const dateStr = `${day} / ${month} / ${year}`;
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0');
-            const timeStr = `${hours}:${minutes}:${seconds}`;
-            
-            document.getElementById('currentDateDisplay').textContent = `التاريخ: ${dateStr}`;
-            document.getElementById('currentTimeDisplay').textContent = `الوقت: ${timeStr}`;
-        }
-        
-        // دالة لعرض الصورة من Google Drive - العامود G (مربعة مع إمكانية الفتح)
-        function displayProfileImage(imageUrl, participantName, participantId) {
-            // التحقق من وجود رابط صورة صحيح
-            if (!imageUrl || imageUrl === '' || imageUrl === 'غير محدد' || imageUrl === '#N/A' || imageUrl === 'لم تتوفر صورة') {
-                // صندوق مربع مع نص "لم تتوفر صورة"
-                return `<div class="no-image-box" onclick="window.open('${imageUrl || '#'}', '_blank');">
-                            <i class="bi bi-image"></i>
-                            <span>لم تتوفر صورة</span>
-                        </div>`;
-            }
-            
-            // تنظيف الرابط من المسافات والاقتباسات
-            imageUrl = imageUrl.trim().replace(/^["']|["']$/g, '');
-            
-            // تحويل رابط Google Drive إلى رابط صورة مباشر
-            let fileId = '';
-            let directImageUrl = imageUrl;
-            
-            // استخراج معرف الملف من روابط Google Drive المختلفة
-            if (imageUrl.includes('drive.google.com')) {
-                if (imageUrl.includes('/d/')) {
-                    fileId = imageUrl.split('/d/')[1].split('/')[0];
-                } else if (imageUrl.includes('id=')) {
-                    fileId = imageUrl.split('id=')[1].split('&')[0];
-                } else if (imageUrl.includes('open?')) {
-                    fileId = imageUrl.split('id=')[1].split('&')[0];
-                } else if (imageUrl.includes('uc?')) {
-                    fileId = imageUrl.split('id=')[1].split('&')[0];
-                }
-            } else if (imageUrl.includes('docs.google.com')) {
-                if (imageUrl.includes('/d/')) {
-                    fileId = imageUrl.split('/d/')[1].split('/')[0];
-                }
-            }
-            
-            // إذا وجدنا معرف الملف، نبني رابط الصورة المباشر
-            if (fileId) {
-                directImageUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
-            }
-            
-            // صندوق مربع مع الصورة فقط - بدون زر حفظ
-            return `<div class="profile-image-container" onclick="window.open('${directImageUrl}', '_blank');">
-                        <img src="${directImageUrl}" alt="صورة المشارك" 
-                             onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'no-image-box\' onclick=\'window.open(\\'${directImageUrl}\\', \\'_blank\\');\'><i class=\'bi bi-image\'></i><span>لم تتوفر صورة</span></div>';">
-                    </div>`;
+            const dateStr = `${now.getDate().toString().padStart(2,'0')}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getFullYear()}`;
+            const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+            document.getElementById('currentDateDisplay').innerHTML = `<i class="bi bi-calendar3"></i> التاريخ: ${dateStr}`;
+            document.getElementById('currentTimeDisplay').innerHTML = `<i class="bi bi-clock"></i> الوقت: ${timeStr}`;
         }
 
-        // تحميل البيانات من Google Sheets
+        // تحميل البيانات من الشيت
         async function loadData() {
             try {
-                console.log("جاري تحميل البيانات من:", DATA_SOURCE_URL);
-                const response = await fetch(DATA_SOURCE_URL);
-                
-                if (!response.ok) {
-                    throw new Error(`فشل تحميل البيانات: ${response.status}`);
-                }
-                
+                const response = await fetch(SHEET_URL);
                 const csvText = await response.text();
-                console.log("تم تحميل البيانات بنجاح، حجم النص:", csvText.length, "حرف");
                 
-                allParticipants = parseCSV(csvText);
-                console.log("تم تحليل البيانات، عدد المشاركين:", allParticipants.length);
+                // تحليل CSV
+                const lines = csvText.split('\n').filter(line => line.trim() !== '');
                 
-                updateStatistics(allParticipants);
-                displayAlerts(allParticipants);
-                displayYesterdayCourses(allParticipants);
+                if (lines.length < 2) {
+                    throw new Error('لا توجد بيانات في الشيت');
+                }
+
+                // استخراج البيانات
+                allParticipants = [];
+                
+                for (let i = 1; i < lines.length; i++) { // نبدأ من 1 لتخطي العناوين
+                    const columns = lines[i].split(',').map(col => col.replace(/^"|"$/g, '').trim());
+                    
+                    if (columns.length >= 5 && columns[1] && columns[1] !== '') {
+                        const participant = {
+                            'اسم المشارك': columns[1] || '',
+                            'اسم الدورة': columns[2] || '',
+                            'تاريخ الانعقاد': columns[3] || '',
+                            'مكان الانعقاد': columns[4] || '',
+                            'مدة الدورة': columns[5] || '',
+                            'image_g': columns[6] || '',
+                            'image_h': columns[7] || '',
+                            'image_i': columns[8] || '',
+                            id: i
+                        };
+                        allParticipants.push(participant);
+                    }
+                }
+
+                // تحديث الواجهة
+                updateStatistics();
+                displayAlerts();
+                displayYesterdayCourses();
                 
                 document.getElementById('participantsContainer').innerHTML = `
                     <div class="empty-state">
-                        <i class="bi bi-journal-check" style="color: var(--primary-color);"></i>
-                        <h5 class="mt-3">تم تحميل البيانات بنجاح</h5>
-                        <p class="text-muted">تم تحميل ${allParticipants.length} سجل مشاركة في الدورات والورش</p>
-                        <p class="text-muted small">اكتب اسم المشارك في حقل البحث للبدء</p>
+                        <i class="bi bi-check-circle" style="font-size: 48px; color: #28a745;"></i>
+                        <h5 class="mt-3">تم تحميل ${allParticipants.length} سجل</h5>
+                        <p class="text-muted">اكتب اسم المشارك للبحث</p>
                     </div>
                 `;
-                
+
             } catch (error) {
-                console.error("حدث خطأ أثناء تحميل البيانات:", error);
-                
-                document.getElementById('participantsContainer').innerHTML = `
-                    <div class="empty-state">
-                        <i class="bi bi-exclamation-triangle" style="color: #dc3545;"></i>
-                        <h5 class="mt-3">خطأ في تحميل البيانات</h5>
-                        <p class="text-muted">تعذر تحميل البيانات من المصدر</p>
-                        <p class="text-muted small">${error.message}</p>
-                    </div>
+                console.error('خطأ:', error);
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('errorMessage').innerHTML = `
+                    <i class="bi bi-exclamation-triangle"></i>
+                    فشل تحميل البيانات: ${error.message}
+                    <button class="btn btn-sm btn-outline-danger me-3" onclick="loadData()">إعادة المحاولة</button>
                 `;
                 
-                document.getElementById('alertsContainer').innerHTML = `
-                    <div class="alert alert-danger">
-                        <i class="bi bi-exclamation-triangle me-2"></i>
-                        تعذر تحميل التنبيهات بسبب خطأ في الاتصال
-                    </div>
-                `;
-                
-                document.getElementById('yesterdayContainer').innerHTML = `
-                    <div class="alert alert-danger">
-                        <i class="bi bi-exclamation-triangle me-2"></i>
-                        تعذر تحميل دورات الأمس بسبب خطأ في الاتصال
-                    </div>
-                `;
+                // بيانات تجريبية في حالة الفشل
+                loadSampleData();
             }
         }
-        
-        // تحليل بيانات CSV
-        function parseCSV(csvText) {
-            const participants = [];
-            const lines = csvText.split('\n');
+
+        // بيانات تجريبية للاختبار
+        function loadSampleData() {
+            allParticipants = [
+                { 'اسم المشارك': 'أحمد محمد', 'اسم الدورة': 'دورة سلامة الغذاء', 'تاريخ الانعقاد': getDateString(1), 'مكان الانعقاد': 'قاعة 1', 'مدة الدورة': 'يومين', 'image_g': '', 'image_h': '', 'image_i': '' },
+                { 'اسم المشارك': 'سارة خالد', 'اسم الدورة': 'ورشة التقنيات الحيوية', 'تاريخ الانعقاد': getDateString(2), 'مكان الانعقاد': 'مختبر 3', 'مدة الدورة': '3 أيام', 'image_g': '', 'image_h': '', 'image_i': '' },
+                { 'اسم المشارك': 'محمد علي', 'اسم الدورة': 'دورة HPLC', 'تاريخ الانعقاد': getDateString(-1), 'مكان الانعقاد': 'مختبر 2', 'مدة الدورة': 'يوم', 'image_g': '', 'image_h': '', 'image_i': '' }
+            ];
             
-            let headerRow = 0;
-            for (let i = 0; i < Math.min(5, lines.length); i++) {
-                const line = lines[i].toLowerCase();
-                if (line.includes('اسم') || line.includes('دورة') || line.includes('تاريخ') || line.includes('مدة')) {
-                    headerRow = i;
-                    break;
-                }
-            }
-        
-            const headers = splitCSVLine(lines[headerRow]);
+            updateStatistics();
+            displayAlerts();
+            displayYesterdayCourses();
             
-            for (let i = headerRow + 1; i < lines.length; i++) {
-                if (lines[i].trim() === '') continue;
-                
-                const columns = splitCSVLine(lines[i]);
-                if (columns.length >= 3) {
-                    const participant = {};
-                    
-                    headers.forEach((header, index) => {
-                        const key = header.trim();
-                        const value = columns[index] ? columns[index].trim() : '';
-                        participant[key] = value;
-                    });
-                    
-                    if (!participant.hasOwnProperty('مدة الدورة')) {
-                        participant['مدة الدورة'] = '';
-                    }
-                    
-                    // معالجة خاصة للعامود G (الصور)
-                    const keys = Object.keys(participant);
-                    
-                    // البحث عن العامود G (عادة ما يكون الفهرس 6)
-                    let imageUrl = '';
-                    
-                    // 1. البحث عن مفتاح يحتوي على كلمة صورة أو Image
-                    for (const key of keys) {
-                        if (key.includes('صورة') || key.includes('Image') || key.includes('image') || key.includes('G:')) {
-                            imageUrl = participant[key];
-                            break;
-                        }
-                    }
-                    
-                    // 2. إذا لم نجد، نأخذ العامود السادس (G)
-                    if (!imageUrl && keys.length > 6) {
-                        imageUrl = participant[keys[6]] || '';
-                    }
-                    
-                    // 3. إذا لم نجد، نأخذ آخر عامود
-                    if (!imageUrl && keys.length > 0) {
-                        imageUrl = participant[keys[keys.length - 1]] || '';
-                    }
-                    
-                    participant['صورة_المشارك'] = imageUrl;
-                    
-                    if (participant['اسم المشارك'] && participant['اسم المشارك'] !== '') {
-                        participant.id = i;
-                        participants.push(participant);
-                    }
-                }
-            }
-            
-            return participants;
+            document.getElementById('participantsContainer').innerHTML = `
+                <div class="empty-state">
+                    <i class="bi bi-exclamation-triangle" style="font-size: 48px; color: #ff9a3c;"></i>
+                    <h5 class="mt-3">بيانات تجريبية</h5>
+                    <p class="text-muted">تعذر الاتصال بالشيت - يتم عرض بيانات تجريبية</p>
+                </div>
+            `;
         }
-        
-        // تقسيم سطر CSV
-        function splitCSVLine(line) {
-            const result = [];
-            let inQuotes = false;
-            let currentField = '';
-            
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
-                
-                if (char === '"') {
-                    inQuotes = !inQuotes;
-                } else if (char === ',' && !inQuotes) {
-                    result.push(currentField);
-                    currentField = '';
-                } else {
-                    currentField += char;
-                }
-            }
-            
-            result.push(currentField);
-            return result;
+
+        function getDateString(daysFromNow) {
+            const date = new Date();
+            date.setDate(date.getDate() + daysFromNow);
+            return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
         }
-        
+
+        // تنسيق التاريخ
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const parts = dateString.split(/[\/\-.]/);
+            if (parts.length === 3) {
+                return `${parts[0].padStart(2,'0')}/${parts[1].padStart(2,'0')}/${parts[2]}`;
+            }
+            return dateString;
+        }
+
+        // التحقق من تاريخ الغد
+        function isTomorrow(dateString) {
+            if (!dateString) return false;
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            const parts = dateString.split(/[\/\-.]/);
+            if (parts.length === 3) {
+                const d = parseInt(parts[0]), m = parseInt(parts[1]) - 1, y = parseInt(parts[2]);
+                return d === tomorrow.getDate() && m === tomorrow.getMonth() && y === tomorrow.getFullYear();
+            }
+            return false;
+        }
+
+        // التحقق من تاريخ الأمس
+        function isYesterday(dateString) {
+            if (!dateString) return false;
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            
+            const parts = dateString.split(/[\/\-.]/);
+            if (parts.length === 3) {
+                const d = parseInt(parts[0]), m = parseInt(parts[1]) - 1, y = parseInt(parts[2]);
+                return d === yesterday.getDate() && m === yesterday.getMonth() && y === yesterday.getFullYear();
+            }
+            return false;
+        }
+
         // تحديث الإحصائيات
-        function updateStatistics(participants) {
-            document.getElementById('totalParticipants').textContent = participants.length;
+        function updateStatistics() {
+            document.getElementById('totalParticipants').textContent = allParticipants.length;
             
-            const uniqueCourses = [...new Set(participants.map(p => p['اسم الدورة او الورشة'] || p['اسم الدورة'] || '').filter(c => c !== ''))];
-            document.getElementById('totalCourses').textContent = uniqueCourses.length;
+            const uniqueCourses = new Set(allParticipants.map(p => p['اسم الدورة']));
+            document.getElementById('totalCourses').textContent = uniqueCourses.size;
             
-            const tomorrowCount = getTomorrowCourses(participants).length;
+            const tomorrowCount = allParticipants.filter(p => isTomorrow(p['تاريخ الانعقاد'])).length;
             document.getElementById('tomorrowCourses').textContent = tomorrowCount;
             
-            const yesterdayCount = getYesterdayCourses(participants).length;
-            document.getElementById('yesterdayCount').textContent = yesterdayCount;
-            
-            const yesterdayParticipants = [...new Set(getYesterdayCourses(participants).map(c => c['اسم المشارك']))].length;
-            document.getElementById('yesterdayParticipants').textContent = yesterdayParticipants;
-            
-            const durations = participants
-                .map(p => {
-                    const duration = p['مدة الدورة'] || '';
-                    const match = duration.match(/(\d+)/);
-                    return match ? parseInt(match[1]) : 0;
-                })
-                .filter(d => d > 0);
-            
-            if (durations.length > 0) {
-                const average = Math.round(durations.reduce((a, b) => a + b, 0) / durations.length);
-                document.getElementById('averageDuration').textContent = `${average} يوم`;
-            } else {
-                document.getElementById('averageDuration').textContent = "0 يوم";
-            }
+            // حساب متوسط المدة
+            let totalDays = 0, count = 0;
+            allParticipants.forEach(p => {
+                const match = (p['مدة الدورة'] || '').match(/\d+/);
+                if (match) {
+                    totalDays += parseInt(match[0]);
+                    count++;
+                }
+            });
+            const avg = count > 0 ? Math.round(totalDays / count) : 0;
+            document.getElementById('averageDuration').textContent = avg > 0 ? avg + ' يوم' : '0';
         }
-        
-        // البحث عن المشاركين
+
+        // عرض التنبيهات
+        function displayAlerts() {
+            const container = document.getElementById('alertsContainer');
+            const tomorrowCourses = allParticipants.filter(p => isTomorrow(p['تاريخ الانعقاد']));
+            
+            if (tomorrowCourses.length === 0) {
+                container.innerHTML = '<div class="text-center py-4"><i class="bi bi-check-circle text-success" style="font-size: 40px;"></i><p class="mt-2">لا توجد تنبيهات</p></div>';
+                return;
+            }
+            
+            let html = '';
+            tomorrowCourses.forEach(course => {
+                html += `
+                    <div class="alert-item">
+                        <div class="fw-bold">${course['اسم الدورة'] || 'دورة'}</div>
+                        <div><i class="bi bi-person"></i> ${course['اسم المشارك']}</div>
+                        <div class="small"><i class="bi bi-calendar"></i> ${formatDate(course['تاريخ الانعقاد'])} <span class="badge bg-warning">غداً</span></div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // عرض دورات الأمس
+        function displayYesterdayCourses() {
+            const container = document.getElementById('yesterdayContainer');
+            const yesterdayCourses = allParticipants.filter(p => isYesterday(p['تاريخ الانعقاد']));
+            
+            document.getElementById('yesterdayCount').textContent = yesterdayCourses.length;
+            document.getElementById('yesterdayParticipants').textContent = yesterdayCourses.length;
+            
+            if (yesterdayCourses.length === 0) {
+                container.innerHTML = '<div class="text-center py-3"><i class="bi bi-calendar-x text-muted" style="font-size: 30px;"></i><p class="mt-2 small">لا توجد دورات</p></div>';
+                return;
+            }
+            
+            let html = '';
+            yesterdayCourses.forEach(course => {
+                html += `
+                    <div class="yesterday-item">
+                        <div class="fw-bold">${course['اسم الدورة'] || 'دورة'}</div>
+                        <div class="small"><i class="bi bi-person"></i> ${course['اسم المشارك']}</div>
+                        <div class="small text-muted">${formatDate(course['تاريخ الانعقاد'])}</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // عرض الصور
+        function displayImages(g, h, i) {
+            let html = '<div class="images-container">';
+            
+            [g, h, i].forEach((img, index) => {
+                if (img && img !== '' && img !== 'غير محدد') {
+                    html += `<div class="image-item" onclick="window.open('${img}', '_blank')"><img src="${img}" onerror="this.parentElement.innerHTML='<div class=\'no-image-box\'><i class=\'bi bi-image\'></i></div>'"></div>`;
+                } else {
+                    html += `<div class="no-image-box"><i class="bi bi-image"></i></div>`;
+                }
+            });
+            
+            html += '</div>';
+            return html;
+        }
+
+        // البحث
         function searchParticipants() {
             currentSearchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
             
             if (currentSearchTerm === '') {
                 document.getElementById('participantsContainer').innerHTML = `
                     <div class="empty-state">
-                        <i class="bi bi-journal-text"></i>
-                        <h5 class="mt-3">ابدأ بالبحث عن مشارك</h5>
-                        <p class="text-muted">اكتب اسم المشارك في حقل البحث أعلاه لعرض سجلات الدورات والورش الخاصة به</p>
+                        <i class="bi bi-search" style="font-size: 48px;"></i>
+                        <h5 class="mt-3">اكتب اسم المشارك للبحث</h5>
                     </div>
                 `;
                 document.getElementById('resultsCount').textContent = '0';
-                filteredParticipants = [];
                 return;
             }
             
-            filteredParticipants = allParticipants.filter(participant => {
-                const participantName = (participant['اسم المشارك'] || '').toLowerCase();
-                const courseName = (participant['اسم الدورة او الورشة'] || participant['اسم الدورة'] || '').toLowerCase();
-                const duration = (participant['مدة الدورة'] || '').toLowerCase();
-                
-                return participantName.includes(currentSearchTerm) || 
-                       courseName.includes(currentSearchTerm) ||
-                       duration.includes(currentSearchTerm);
-            });
+            filteredParticipants = allParticipants.filter(p => 
+                (p['اسم المشارك'] || '').toLowerCase().includes(currentSearchTerm)
+            );
             
-            displayResults(filteredParticipants, currentSearchTerm);
+            displayResults(filteredParticipants);
+            document.getElementById('resultsCount').textContent = filteredParticipants.length;
         }
-        
-        // عرض نتائج البحث
-        function displayResults(participants, searchTerm) {
+
+        // عرض النتائج
+        function displayResults(participants) {
             const container = document.getElementById('participantsContainer');
-            document.getElementById('resultsCount').textContent = participants.length;
             
             if (participants.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <i class="bi bi-search" style="color: #6c757d;"></i>
-                        <h5 class="mt-3">لا توجد نتائج للبحث</h5>
-                        <p class="text-muted">لم يتم العثور على نتائج مطابقة لـ "${searchTerm}"</p>
-                        <p class="text-muted small">حاول استخدام مصطلحات بحث مختلفة</p>
+                        <i class="bi bi-exclamation-circle" style="font-size: 48px;"></i>
+                        <h5 class="mt-3">لا توجد نتائج</h5>
+                        <p class="text-muted">لم يتم العثور على "${currentSearchTerm}"</p>
                     </div>
                 `;
                 return;
             }
             
             let html = '';
-            
-            participants.forEach((participant, index) => {
-                const isTomorrow = isCourseTomorrow(participant['تاريخ انعقادها']);
-                const isYesterday = isCourseYesterday(participant['تاريخ انعقادها']);
-                const formattedDate = formatDateNumeric(participant['تاريخ انعقادها']);
-                const courseName = participant['اسم الدورة او الورشة'] || participant['اسم الدورة'] || 'غير محدد';
-                const duration = participant['مدة الدورة'] || 'غير محدد';
-                
-                // الحصول على رابط الصورة واسم المشارك
-                const imageUrl = participant['صورة_المشارك'] || '';
-                const participantName = participant['اسم المشارك'] || 'غير محدد';
-                
+            participants.forEach((p, index) => {
                 html += `
-                <div class="participant-row ${isTomorrow ? 'border-start border-warning border-3' : isYesterday ? 'border-start border-secondary border-3' : ''}">
-                    <div class="row align-items-center">
-                        <div class="col-md-1">
-                            <div class="fw-bold text-dark mb-1">
-                                <span style="font-size: 1.1rem;">${index + 1}</span>
+                    <div class="participant-row">
+                        <div class="row align-items-center">
+                            <div class="col-md-1">${index + 1}</div>
+                            <div class="col-md-3">
+                                <div class="participant-name">${p['اسم المشارك'] || ''}</div>
+                                ${displayImages(p['image_g'], p['image_h'], p['image_i'])}
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="d-flex align-items-start">
-                                <div class="me-3">
-                                    ${displayProfileImage(imageUrl, participantName, participant.id)}
-                                </div>
-                                <div>
-                                    <div class="fw-bold text-primary mb-1 participant-name">
-                                        ${participantName}
-                                    </div>
-                                    <div class="participant-details">
-                                        رقم السجل: ${participant.id || index + 1}
-                                    </div>
-                                </div>
+                            <div class="col-md-2"><span class="course-badge">${p['اسم الدورة'] || ''}</span></div>
+                            <div class="col-md-2">
+                                <span class="date-display">${formatDate(p['تاريخ الانعقاد'])}</span>
+                                ${isTomorrow(p['تاريخ الانعقاد']) ? '<span class="badge bg-warning d-block mt-1">غداً</span>' : ''}
+                                ${isYesterday(p['تاريخ الانعقاد']) ? '<span class="badge bg-secondary d-block mt-1">أمس</span>' : ''}
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <span class="course-badge">
-                                <i class="bi bi-journal-text me-1"></i>${courseName}
-                            </span>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="mb-1">
-                                <i class="bi bi-calendar-event me-2 ${isTomorrow ? 'text-warning' : isYesterday ? 'text-secondary' : 'text-muted'}"></i>
-                                <span class="date-display">${formattedDate}</span>
-                            </div>
-                            ${isTomorrow ? '<span class="badge bg-warning text-dark small" style="font-size: 0.85rem;">غداً</span>' : ''}
-                            ${isYesterday ? '<span class="badge bg-secondary text-white small" style="font-size: 0.85rem;">أمس</span>' : ''}
-                            ${isDateInPast(participant['تاريخ انعقادها']) && !isYesterday ? '<span class="badge bg-secondary text-white small" style="font-size: 0.85rem;">منتهية</span>' : ''}
-                        </div>
-                        <div class="col-md-2">
-                            <span class="duration-badge">
-                                <i class="bi bi-clock me-1"></i>${duration}
-                            </span>
-                        </div>
-                        <div class="col-md-2">
-                            <span class="location-badge">
-                                <i class="bi bi-geo-alt me-1"></i>${participant['مكان الانعقاد'] || 'غير محدد'}
-                            </span>
+                            <div class="col-md-2"><span class="duration-badge">${p['مدة الدورة'] || ''}</span></div>
+                            <div class="col-md-2"><span class="location-badge">${p['مكان الانعقاد'] || ''}</span></div>
                         </div>
                     </div>
-                </div>`;
+                `;
             });
             
             container.innerHTML = html;
         }
-        
-        // عرض التنبيهات
-        function displayAlerts(participants) {
-            const container = document.getElementById('alertsContainer');
-            const tomorrowCourses = getTomorrowCourses(participants);
-            
-            if (tomorrowCourses.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-4">
-                        <i class="bi bi-check-circle display-4 text-success mb-3"></i>
-                        <h5 class="text-success">لا توجد تنبيهات</h5>
-                        <p class="text-muted small">لا توجد دورات أو ورش مقرر عقدها غداً</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            let html = '';
-            
-            tomorrowCourses.forEach(course => {
-                const formattedDate = formatDateNumeric(course['تاريخ انعقادها']);
-                const courseName = course['اسم الدورة او الورشة'] || course['اسم الدورة'] || 'دورة/ورشة';
-                const duration = course['مدة الدورة'] || 'غير محدد';
+
+        // الطباعة
+        function setupPrinting() {
+            document.getElementById('printButton').addEventListener('click', function() {
+                const participantsToPrint = currentSearchTerm ? filteredParticipants : allParticipants;
                 
-                html += `
-                <div class="alert-item">
-                    <div class="d-flex align-items-start">
-                        <div class="alert-icon me-3 flex-shrink-0">
-                            <i class="bi bi-exclamation-triangle"></i>
-                        </div>
-                        <div>
-                            <div class="fw-bold mb-1" style="font-size: 1.05rem;">${courseName}</div>
-                            <div class="mb-1">
-                                <i class="bi bi-person me-1"></i>
-                                <span class="text-primary" style="font-size: 1rem;">${course['اسم المشارك'] || 'مشارك'}</span>
-                            </div>
-                            <div class="small" style="font-size: 0.9rem;">
-                                <i class="bi bi-calendar-event me-1"></i>
-                                <span class="date-display">${formattedDate}</span>
-                                <span class="badge bg-warning text-dark me-2" style="font-size: 0.85rem;">غداً</span>
-                                <span class="me-2 ms-2">•</span>
-                                <i class="bi bi-clock me-1"></i>
-                                <span class="text-purple">${duration}</span>
-                                <span class="me-2 ms-2">•</span>
-                                <i class="bi bi-geo-alt me-1"></i>
-                                ${course['مكان الانعقاد'] || 'مكان غير محدد'}
-                            </div>
-                        </div>
-                    </div>
-                </div>`;
-            });
-            
-            container.innerHTML = html;
-        }
-        
-        // عرض دورات الأمس
-        function displayYesterdayCourses(participants) {
-            const container = document.getElementById('yesterdayContainer');
-            const yesterdayCourses = getYesterdayCourses(participants);
-            
-            if (yesterdayCourses.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-3">
-                        <i class="bi bi-calendar-x display-4 text-muted mb-3"></i>
-                        <h6 class="text-muted">لا توجد دورات</h6>
-                        <p class="text-muted small">لم تنعقد أي دورات أو ورش يوم أمس</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            let html = '';
-            
-            // تجميع الدورات حسب نوعها
-            const coursesByType = {};
-            yesterdayCourses.forEach(course => {
-                const courseName = course['اسم الدورة او الورشة'] || course['اسم الدورة'] || 'دورة/ورشة';
-                if (!coursesByType[courseName]) {
-                    coursesByType[courseName] = {
-                        name: courseName,
-                        participants: [],
-                        duration: course['مدة الدورة'] || 'غير محدد',
-                        location: course['مكان الانعقاد'] || 'غير محدد'
-                    };
+                if (participantsToPrint.length === 0) {
+                    alert('لا توجد نتائج للطباعة');
+                    return;
                 }
-                coursesByType[courseName].participants.push({
-                    name: course['اسم المشارك'] || 'مشارك',
-                    id: course.id
-                });
-            });
-            
-            // عرض كل نوع دورة مع جميع المشاركين
-            Object.values(coursesByType).forEach((course, index) => {
-                const participantsCount = course.participants.length;
                 
-                // إنشاء قائمة بجميع المشاركين
-                let participantsListHtml = '';
-                course.participants.forEach((participant, pIndex) => {
-                    participantsListHtml += `
-                        <div class="participant-item">
-                            <i class="bi bi-person-fill"></i>
-                            ${participant.name}
-                        </div>
+                const dateStr = new Date().toLocaleDateString('ar-EG');
+                document.getElementById('printSearchDetails').innerHTML = `
+                    <p><strong>نتائج البحث:</strong> ${currentSearchTerm || 'جميع المشاركين'}</p>
+                    <p><strong>التاريخ:</strong> ${dateStr}</p>
+                    <p><strong>عدد النتائج:</strong> ${participantsToPrint.length}</p>
+                `;
+                
+                let tableBody = '';
+                participantsToPrint.forEach((p, i) => {
+                    tableBody += `
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #dee2e6;">${i+1}</td>
+                            <td style="padding: 8px; border: 1px solid #dee2e6;">${p['اسم المشارك'] || ''}</td>
+                            <td style="padding: 8px; border: 1px solid #dee2e6;">${p['اسم الدورة'] || ''}</td>
+                            <td style="padding: 8px; border: 1px solid #dee2e6;">${formatDate(p['تاريخ الانعقاد'])}</td>
+                            <td style="padding: 8px; border: 1px solid #dee2e6;">${p['مدة الدورة'] || ''}</td>
+                            <td style="padding: 8px; border: 1px solid #dee2e6;">${p['مكان الانعقاد'] || ''}</td>
+                        </tr>
                     `;
                 });
                 
-                html += `
-                <div class="yesterday-item">
-                    <div class="d-flex align-items-start">
-                        <div class="yesterday-icon me-3 flex-shrink-0">
-                            <i class="bi bi-calendar-check"></i>
-                        </div>
-                        <div style="width: 100%;">
-                            <div class="fw-bold mb-1" style="font-size: 1.05rem;">${course.name}</div>
-                            <div class="mb-1 small" style="font-size: 0.9rem;">
-                                <i class="bi bi-people me-1"></i>
-                                <span class="text-dark">${participantsCount} مشارك</span>
-                                <span class="yesterday-badge ms-2">دورة منتهية</span>
-                            </div>
-                            
-                            <!-- قائمة جميع المشاركين -->
-                            <div class="participants-list">
-                                <div style="font-weight: 600; margin-bottom: 5px; color: var(--dark-color);">
-                                    <i class="bi bi-list-check me-1"></i>قائمة المشاركين:
-                                </div>
-                                ${participantsListHtml}
-                            </div>
-                            
-                            <div class="small text-muted mt-2" style="font-size: 0.85rem;">
-                                <i class="bi bi-clock me-1"></i>
-                                ${course.duration}
-                                <span class="me-2 ms-2">•</span>
-                                <i class="bi bi-geo-alt me-1"></i>
-                                ${course.location}
-                            </div>
-                        </div>
-                    </div>
-                </div>`;
-            });
-            
-            container.innerHTML = html;
-        }
-        
-        // الحصول على دورات الغد
-        function getTomorrowCourses(participants) {
-            return participants.filter(participant => {
-                return isCourseTomorrow(participant['تاريخ انعقادها']);
+                document.getElementById('printTableBody').innerHTML = tableBody;
+                
+                const printContent = document.getElementById('printable-results').innerHTML;
+                const originalContent = document.body.innerHTML;
+                
+                document.body.innerHTML = printContent;
+                window.print();
+                document.body.innerHTML = originalContent;
+                location.reload(); // إعادة تحميل الصفحة بعد الطباعة
             });
         }
-        
-        // الحصول على دورات الأمس
-        function getYesterdayCourses(participants) {
-            return participants.filter(participant => {
-                return isCourseYesterday(participant['تاريخ انعقادها']);
-            });
-        }
-        
-        // التحقق مما إذا كانت الدورة غداً
-        function isCourseTomorrow(dateString) {
-            if (!dateString) return false;
-            
-            try {
-                const courseDate = parseDate(dateString);
-                if (!courseDate) return false;
-                
-                const tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                tomorrow.setHours(0, 0, 0, 0);
-                courseDate.setHours(0, 0, 0, 0);
-                
-                return courseDate.getTime() === tomorrow.getTime();
-            } catch (e) {
-                return false;
-            }
-        }
-        
-        // التحقق مما إذا كانت الدورة أمس
-        function isCourseYesterday(dateString) {
-            if (!dateString) return false;
-            
-            try {
-                const courseDate = parseDate(dateString);
-                if (!courseDate) return false;
-                
-                const yesterday = new Date();
-                yesterday.setDate(yesterday.getDate() - 1);
-                yesterday.setHours(0, 0, 0, 0);
-                courseDate.setHours(0, 0, 0, 0);
-                
-                return courseDate.getTime() === yesterday.getTime();
-            } catch (e) {
-                return false;
-            }
-        }
-        
-        // التحقق مما إذا كان التاريخ في الماضي
-        function isDateInPast(dateString) {
-            if (!dateString) return false;
-            
-            try {
-                const courseDate = parseDate(dateString);
-                if (!courseDate) return false;
-                
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                courseDate.setHours(0, 0, 0, 0);
-                
-                return courseDate < today;
-            } catch (e) {
-                return false;
-            }
-        }
-        
-        // دالة متقدمة لتحليل التاريخ من تنسيقات مختلفة
-        function parseDate(dateString) {
-            if (!dateString) return null;
-            
-            dateString = dateString.toString().trim();
-            
-            // تنظيف التاريخ من أي نصوص إضافية
-            dateString = dateString.replace(/[^0-9\/\-\.]/g, '');
-            
-            // قائمة الفواصل المحتملة
-            const separators = ['/', '-', '.'];
-            let parts = [];
-            let separator = '';
-            
-            // تحديد الفاصل المستخدم
-            for (const sep of separators) {
-                if (dateString.includes(sep)) {
-                    parts = dateString.split(sep);
-                    separator = sep;
-                    break;
-                }
-            }
-            
-            if (parts.length !== 3) {
-                return null;
-            }
-            
-            // تحويل الأجزاء إلى أرقام
-            let num1 = parseInt(parts[0], 10);
-            let num2 = parseInt(parts[1], 10);
-            let num3 = parseInt(parts[2], 10);
-            
-            if (isNaN(num1) || isNaN(num2) || isNaN(num3)) {
-                return null;
-            }
-            
-            let day, month, year;
-            
-            // التحقق من صحة السنة
-            if (num3 > 1000) {
-                // تنسيق YYYY/MM/DD أو YYYY/DD/MM
-                year = num3;
-                if (num1 > 12 && num1 <= 31) {
-                    // YYYY/DD/MM
-                    day = num1;
-                    month = num2;
-                } else {
-                    // YYYY/MM/DD
-                    month = num1;
-                    day = num2;
-                }
-            } else if (num1 > 1000) {
-                // تنسيق YYYY/MM/DD
-                year = num1;
-                month = num2;
-                day = num3;
-            } else if (num3 > 31) {
-                // تنسيق MM/DD/YYYY أو DD/MM/YYYY
-                year = num3;
-                if (num1 > 12) {
-                    // DD/MM/YYYY
-                    day = num1;
-                    month = num2;
-                } else {
-                    // MM/DD/YYYY
-                    month = num1;
-                    day = num2;
-                }
-            } else {
-                // تنسيق DD/MM/YY أو MM/DD/YY
-                year = num3 + 2000; // تحويل 26 إلى 2026
-                if (num1 > 12) {
-                    // DD/MM/YY
-                    day = num1;
-                    month = num2;
-                } else {
-                    // MM/DD/YY
-                    month = num1;
-                    day = num2;
-                }
-            }
-            
-            // التحقق من صحة الشهر واليوم
-            if (month < 1 || month > 12) {
-                // ربما تم عكس الشهر واليوم
-                let temp = month;
-                month = day;
-                day = temp;
-            }
-            
-            // التأكد من أن اليوم في النطاق الصحيح
-            if (day < 1 || day > 31) {
-                day = 1; // قيمة افتراضية
-            }
-            if (month < 1 || month > 12) {
-                month = 1; // قيمة افتراضية
-            }
-            if (year < 1900) {
-                year += 2000;
-            }
-            
-            return new Date(year, month - 1, day);
-        }
-        
-        // تنسيق التاريخ رقمياً: يوم / شهر / سنة
-        function formatDateNumeric(dateString) {
-            const date = parseDate(dateString);
-            if (!date) return dateString || 'غير محدد';
-            
-            const day = date.getDate();
-            const month = date.getMonth() + 1;
-            const year = date.getFullYear();
-            
-            return `${day} / ${month} / ${year}`;
-        }
-        
-        // إعداد محتوى الطباعة
-        function preparePrintContent() {
-            const participantsToPrint = currentSearchTerm ? filteredParticipants : allParticipants;
-            const now = new Date();
-            
-            const printDay = now.getDate();
-            const printMonth = now.getMonth() + 1;
-            const printYear = now.getFullYear();
-            const printDateStr = `${printDay} / ${printMonth} / ${printYear}`;
-            
-            const printHours = now.getHours().toString().padStart(2, '0');
-            const printMinutes = now.getMinutes().toString().padStart(2, '0');
-            const printTimeStr = `${printHours}:${printMinutes}`;
-            
-            let printTitle = "كافة المشاركين في الدورات والورش";
-            let searchDetails = `
-                <div style="margin-bottom: 10px;">
-                    <strong>نوع التقرير:</strong> تقرير عام لجميع المشاركين
-                </div>
-                <div style="margin-bottom: 5px;">
-                    <strong>عدد السجلات:</strong> ${participantsToPrint.length} سجل
-                </div>
-            `;
-            
-            if (currentSearchTerm) {
-                printTitle = `نتائج البحث عن "${currentSearchTerm}"`;
-                searchDetails = `
-                    <div style="margin-bottom: 10px;">
-                        <strong>نوع التقرير:</strong> تقرير بحثي
-                    </div>
-                    <div style="margin-bottom: 5px;">
-                        <strong>كلمة البحث:</strong> "${currentSearchTerm}"
-                    </div>
-                    <div style="margin-bottom: 5px;">
-                        <strong>عدد النتائج:</strong> ${participantsToPrint.length} نتيجة
-                    </div>
-                `;
-            }
-            
-            if (participantsToPrint.length > 0) {
-                const uniqueCourses = [...new Set(participantsToPrint.map(p => p['اسم الدورة او الورشة'] || p['اسم الدورة'] || '').filter(c => c !== ''))];
-                const totalDuration = participantsToPrint.reduce((sum, p) => {
-                    const duration = p['مدة الدورة'] || '';
-                    const match = duration.match(/(\d+)/);
-                    return sum + (match ? parseInt(match[1]) : 0);
-                }, 0);
-                
-                searchDetails += `
-                    <div style="margin-bottom: 5px;">
-                        <strong>عدد الدورات المميزة:</strong> ${uniqueCourses.length} دورة/ورشة
-                    </div>
-                    <div style="margin-bottom: 5px;">
-                        <strong>إجمالي أيام التدريب:</strong> ${totalDuration} يوم
-                    </div>
-                `;
-            }
-            
-            document.getElementById('printTitle').textContent = printTitle;
-            document.getElementById('printDate').textContent = printDateStr;
-            document.getElementById('printTime').textContent = printTimeStr;
-            document.getElementById('printCount').textContent = participantsToPrint.length;
-            document.getElementById('printSearchDetails').innerHTML = searchDetails;
-            
-            const tableBody = document.getElementById('printTableBody');
-            tableBody.innerHTML = '';
-            
-            if (participantsToPrint.length === 0) {
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="7" style="text-align: center; padding: 30px; color: #666;">
-                            لا توجد بيانات للطباعة
-                        </td>
-                    </tr>`;
-                return;
-            }
-            
-            participantsToPrint.forEach((participant, index) => {
-                const formattedDate = formatDateNumeric(participant['تاريخ انعقادها']);
-                const courseName = participant['اسم الدورة او الورشة'] || participant['اسم الدورة'] || 'غير محدد';
-                const duration = participant['مدة الدورة'] || 'غير محدد';
-                const participantName = participant['اسم المشارك'] || 'غير محدد';
-                
-                // الحصول على رابط الصورة للطباعة
-                let imageUrl = participant['صورة_المشارك'] || '';
-                let fileId = '';
-                let directImageUrl = '';
-                
-                if (imageUrl && imageUrl !== '' && imageUrl !== 'غير محدد' && imageUrl !== '#N/A' && imageUrl !== 'لم تتوفر صورة') {
-                    if (imageUrl.includes('drive.google.com')) {
-                        if (imageUrl.includes('/d/')) {
-                            fileId = imageUrl.split('/d/')[1].split('/')[0];
-                        } else if (imageUrl.includes('id=')) {
-                            fileId = imageUrl.split('id=')[1].split('&')[0];
-                        }
-                    }
-                    
-                    if (fileId) {
-                        directImageUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w100`;
-                    }
-                }
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td style="font-size: 0.95rem; text-align: center;">${index + 1}</td>
-                    <td style="font-size: 0.95rem; text-align: center;">
-                        ${directImageUrl ? `<a href="${directImageUrl}" target="_blank"><img src="${directImageUrl}" style="width: 60px; height: 60px; object-fit: cover; border: 1px solid #2c7873; border-radius: 4px;" onerror="this.onerror=null; this.parentElement.innerHTML='<div style=\'width:60px;height:60px;border:1px dashed #ccc;display:flex;align-items:center;justify-content:center;background:#f8f9fa;border-radius:4px;\'><span style=\'font-size:0.7rem;color:#6c757d;\'>لم تتوفر صورة</span></div>';">` : 
-                        `<div style="width:60px;height:60px;border:1px dashed #ccc;display:flex;align-items:center;justify-content:center;background:#f8f9fa;border-radius:4px;">
-                            <span style="font-size:0.7rem;color:#6c757d;">لم تتوفر صورة</span>
-                        </div>`}
-                    </td>
-                    <td style="font-size: 0.95rem;">${participantName}</td>
-                    <td style="font-size: 0.95rem;">${courseName}</td>
-                    <td style="font-size: 0.95rem; text-align: center;">${formattedDate}</td>
-                    <td style="font-size: 0.95rem; text-align: center;">${duration}</td>
-                    <td style="font-size: 0.95rem;">${participant['مكان الانعقاد'] || 'غير محدد'}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
-        
-        // إعداد الطباعة
-        function setupPrinting() {
-            document.getElementById('printButton').addEventListener('click', function() {
-                preparePrintContent();
-                
-                document.getElementById('printable-results').style.display = 'block';
-                
-                setTimeout(() => {
-                    window.print();
-                    
-                    setTimeout(() => {
-                        document.getElementById('printable-results').style.display = 'none';
-                    }, 100);
-                }, 100);
-            });
-        }
-        
-        // تهيئة التطبيق
+
+        // تهيئة الصفحة
         document.addEventListener('DOMContentLoaded', function() {
             updateDateTime();
             setInterval(updateDateTime, 1000);
-            
             loadData();
             
             document.getElementById('searchButton').addEventListener('click', searchParticipants);
-            document.getElementById('searchInput').addEventListener('keyup', function(event) {
-                if (event.key === 'Enter') {
-                    searchParticipants();
-                }
+            document.getElementById('searchInput').addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') searchParticipants();
             });
             
             setupPrinting();
-            
-            const searchInput = document.getElementById('searchInput');
-            searchInput.addEventListener('focus', function() {
-                this.parentElement.classList.add('border-primary', 'border-2');
-            });
-            
-            searchInput.addEventListener('blur', function() {
-                this.parentElement.classList.remove('border-primary', 'border-2');
-            });
         });
     </script>
 </body>
