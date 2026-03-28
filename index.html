@@ -64,6 +64,9 @@
             box-shadow: 0 6px 0 #0e3f13;
             transition: 0.1s;
             min-width: 180px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
         }
 
         .btn-primary:active {
@@ -71,9 +74,13 @@
             box-shadow: 0 2px 0 #0e3f13;
         }
 
-        .btn-special {
-            background: #8B4513;
-            box-shadow: 0 6px 0 #5A2E0C;
+        .btn-awards {
+            background: #9b2e2e;
+            box-shadow: 0 6px 0 #631c1c;
+        }
+        
+        .btn-awards:hover {
+            background: #b63a3a;
         }
 
         .degree-grid {
@@ -152,20 +159,6 @@
             background: #f5f5f5;
         }
 
-        .edit-btn {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .edit-btn:hover {
-            background: #45a049;
-        }
-
         .back-btn {
             background: #8b8b8b;
             color: white;
@@ -204,6 +197,7 @@
         <div class="main-buttons">
             <button class="btn-primary" onclick="window.open('https://durdur343-maker.github.io/ok.dawrat/', '_blank')">📘 ادارة الدورات</button>
             <button class="btn-primary" onclick="window.open('https://durdur343-maker.github.io/duraid-aqeel/', '_blank')">🏛️ هيكلية القسم</button>
+            <button class="btn-primary btn-awards" onclick="window.open('https://durdur343-maker.github.io/agaiz/', '_blank')">🏅 اجايز الموظفين</button>
         </div>
 
         <div class="degree-grid" id="degreeButtons"></div>
@@ -307,7 +301,7 @@
             { id: 72, name: "وفاء سليم نوري هاشم", degree: "بكالوريوس", specialization: "تربية", subSpecialization: "تربية لغات", title: "" }
         ];
 
-        // قائمة الشهادات (بدون متقاعدين)
+        // قائمة الشهادات
         const degrees = ['الدكتوراه', 'الماجستير', 'دبلوم العالي', 'بكالوريوس', 'دبلوم', 'اعدادية', 'المتوسطة', 'الابتدائية', 'دون شهادة'];
         
         function getEmployeesByDegree() {
